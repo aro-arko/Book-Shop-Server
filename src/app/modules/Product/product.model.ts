@@ -6,6 +6,7 @@ const bookSchema = new Schema<TBook>(
     title: {
       type: String,
       required: [true, 'Title is required'],
+      unique: true, // Ensures the title is unique
       trim: true,
       maxlength: [100, 'Title cannot exceed 100 characters'],
     },
@@ -23,17 +24,7 @@ const bookSchema = new Schema<TBook>(
     category: {
       type: String,
       required: [true, 'Category is required'],
-      enum: {
-        values: [
-          'Fiction',
-          'Science',
-          'SelfDevelopment',
-          'Poetry',
-          'Religious',
-        ],
-        message:
-          'Category must be one of: Fiction, Science, SelfDevelopment, Poetry, Religious',
-      },
+      enum: ['Fiction', 'Science', 'SelfDevelopment', 'Poetry', 'Religious'],
     },
     description: {
       type: String,
@@ -56,6 +47,16 @@ const bookSchema = new Schema<TBook>(
     versionKey: false,
   },
 );
+
+// Middleware to handle unique constraint errors
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+bookSchema.post('save', function (error: any, doc: any, next: any) {
+  if (error.code === 11000) {
+    next(new Error('This title is already in the list.'));
+  } else {
+    next(error);
+  }
+});
 
 const Book = model<TBook>('Books', bookSchema);
 
