@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
-// creating bookSchema based on TBook Type
 const bookSchema = new mongoose_1.Schema({
     title: {
         type: String,
@@ -40,6 +39,13 @@ const bookSchema = new mongoose_1.Schema({
     inStock: {
         type: Boolean,
         required: [true, 'InStock is required'],
+        validate: {
+            validator: function (value) {
+                // If quantity is greater than 0, inStock must be true.
+                return this.quantity > 0 ? value === true : value === false;
+            },
+            message: 'InStock must be true if quantity is greater than 0, or false if quantity is 0.',
+        },
     },
 }, {
     timestamps: true,
@@ -55,6 +61,6 @@ bookSchema.post('save', function (error, doc, next) {
         next(error);
     }
 });
-// create and export the Book model
+// Create and export the Book model
 const Book = (0, mongoose_1.model)('Books', bookSchema);
 exports.default = Book;

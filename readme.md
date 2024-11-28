@@ -46,6 +46,7 @@ Before you begin, ensure you have the following installed:
    npm run dev
    ```
    This will start the server at `http://localhost:5000/`
+   If you want to use our online live server, here is the link: `https://book-shop-server-api.vercel.app/`
 
 ## Endpoints
 
