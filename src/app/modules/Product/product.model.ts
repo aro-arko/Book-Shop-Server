@@ -1,7 +1,6 @@
 import { Schema, model } from 'mongoose';
 import { TBook } from './product.interface';
 
-// creating bookSchema based on TBook Type
 const bookSchema = new Schema<TBook>(
   {
     title: {
@@ -41,6 +40,14 @@ const bookSchema = new Schema<TBook>(
     inStock: {
       type: Boolean,
       required: [true, 'InStock is required'],
+      validate: {
+        validator: function (value: boolean) {
+          // If quantity is greater than 0, inStock must be true.
+          return this.quantity > 0 ? value === true : value === false;
+        },
+        message:
+          'InStock must be true if quantity is greater than 0, or false if quantity is 0.',
+      },
     },
   },
   {
@@ -59,7 +66,7 @@ bookSchema.post('save', function (error: any, doc: any, next: any) {
   }
 });
 
-// create and export the Book model
+// Create and export the Book model
 const Book = model<TBook>('Books', bookSchema);
 
 export default Book;
