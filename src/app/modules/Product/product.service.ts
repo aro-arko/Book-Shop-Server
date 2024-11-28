@@ -8,12 +8,28 @@ const createBookIntoDB = async (new_book: TBook) => {
 };
 
 // finding all the books from our database
-const getAllBooks = async () => {
-  const result = await Book.find();
+const getAllBooks = async (searchTerm?: string) => {
+  let result;
+
+  if (searchTerm) {
+    // If searchTerm exists
+    result = await Book.find({
+      $or: [
+        // going with case insensitive
+        { title: { $regex: searchTerm, $options: 'i' } },
+        { author: { $regex: searchTerm, $options: 'i' } },
+        { category: { $regex: searchTerm, $options: 'i' } },
+      ],
+    });
+  } else {
+    // Otherwise, fetch all books
+    result = await Book.find();
+  }
+
   if (result.length > 0) {
     return result;
   } else {
-    throw new Error('Book list is empty!');
+    throw new Error('No books found!');
   }
 };
 
