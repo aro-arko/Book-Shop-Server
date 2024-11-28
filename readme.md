@@ -42,10 +42,13 @@ Before you begin, ensure you have the following installed:
 3. Set up environment variables:
    Create a .env file in the root of the project and configure it as needed (e.g., MongoDB connection URL).
 4. Start the application:
+
    ```bash
    npm run dev
    ```
+
    This will start the server at `http://localhost:5000/`
+
    If you want to use our online live server, here is the link: `https://book-shop-server-api.vercel.app/`
 
 ## Endpoints
