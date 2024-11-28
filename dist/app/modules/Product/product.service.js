@@ -20,13 +20,28 @@ const createBookIntoDB = (new_book) => __awaiter(void 0, void 0, void 0, functio
     return result;
 });
 // finding all the books from our database
-const getAllBooks = () => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield product_model_1.default.find();
+const getAllBooks = (searchTerm) => __awaiter(void 0, void 0, void 0, function* () {
+    let result;
+    if (searchTerm) {
+        // If searchTerm exists
+        result = yield product_model_1.default.find({
+            $or: [
+                // going with case insensitive
+                { title: { $regex: searchTerm, $options: 'i' } },
+                { author: { $regex: searchTerm, $options: 'i' } },
+                { category: { $regex: searchTerm, $options: 'i' } },
+            ],
+        });
+    }
+    else {
+        // Otherwise, fetch all books
+        result = yield product_model_1.default.find();
+    }
     if (result.length > 0) {
         return result;
     }
     else {
-        throw new Error('Book list is empty!');
+        throw new Error('No books found!');
     }
 });
 // find individual book by their id
