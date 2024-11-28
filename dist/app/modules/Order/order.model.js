@@ -34,6 +34,7 @@ var __importStar = (this && this.__importStar) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
+// creating a schema for an Order based on TOrder type
 const orderSchema = new mongoose_1.Schema({
     email: {
         type: String,
@@ -70,5 +71,6 @@ const orderSchema = new mongoose_1.Schema({
     timestamps: true,
     versionKey: false,
 });
+// creating and exporting the Order model
 const Order = (0, mongoose_1.model)('Order', orderSchema);
 exports.default = Order;

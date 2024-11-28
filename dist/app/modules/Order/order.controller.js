@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.OrderControllers = void 0;
 const order_service_1 = require("./order.service");
+// handle the creation of an order
 const orderABook = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const orderData = req.body;
@@ -31,12 +32,14 @@ const orderABook = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         });
     }
 });
+// handle fetching the total revenue from orders
 const getRevenue = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield order_service_1.OrderServices.getRevenue();
     try {
         res.status(200).json({
             message: 'Revenue calculated successfully',
             status: true,
+            // if result available unless set to 0
             data: result || {
                 totalRevenue: 0,
             },
@@ -52,6 +55,7 @@ const getRevenue = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         });
     }
 });
+// Exporting the controllers for use in the routes
 exports.OrderControllers = {
     orderABook,
     getRevenue,

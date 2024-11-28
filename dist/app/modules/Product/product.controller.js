@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProductControllers = void 0;
 const product_service_1 = require("./product.service");
+// creating a new book
 const createBook = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const bookData = req.body;
@@ -31,6 +32,7 @@ const createBook = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         });
     }
 });
+// retrieving all books
 const getAllBooks = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield product_service_1.ProductServices.getAllBooks();
@@ -50,6 +52,7 @@ const getAllBooks = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         });
     }
 });
+// retrieving a single book by its ID
 const getSingleBook = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { productId } = req.params;
@@ -71,6 +74,7 @@ const getSingleBook = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         });
     }
 });
+// updating a book by its ID
 const updateABook = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { productId } = req.params;
@@ -92,6 +96,7 @@ const updateABook = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         });
     }
 });
+// deleting a book by its ID
 const deleteABook = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { productId } = req.params;
@@ -113,6 +118,7 @@ const deleteABook = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         });
     }
 });
+// Export all product-related controllers
 exports.ProductControllers = {
     createBook,
     getAllBooks,

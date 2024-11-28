@@ -1,11 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
+// creating bookSchema based on TBook Type
 const bookSchema = new mongoose_1.Schema({
     title: {
         type: String,
         required: [true, 'Title is required'],
-        unique: true, // Ensures the title is unique
+        unique: true,
         trim: true,
         maxlength: [100, 'Title cannot exceed 100 characters'],
     },
@@ -54,5 +55,6 @@ bookSchema.post('save', function (error, doc, next) {
         next(error);
     }
 });
+// create and export the Book model
 const Book = (0, mongoose_1.model)('Books', bookSchema);
 exports.default = Book;

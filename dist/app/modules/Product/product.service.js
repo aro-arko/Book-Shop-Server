@@ -60,6 +60,7 @@ const deleteABook = (productId) => __awaiter(void 0, void 0, void 0, function* (
     const result = product_model_1.default.findByIdAndDelete(productId, { new: true });
     return result;
 });
+// Exporting all product-related services
 exports.ProductServices = {
     createBookIntoDB,
     getAllBooks,

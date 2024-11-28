@@ -17,10 +17,13 @@ const app_1 = __importDefault(require("./app"));
 const config_1 = __importDefault(require("./app/config"));
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
+        // Connect to the MongoDB database
         yield mongoose_1.default.connect(config_1.default.database_url);
+        // start the express server on dedicated port
         app_1.default.listen(config_1.default.port, () => {
             console.log(`Example app listening on port ${config_1.default.port}`);
         });
     });
 }
+// Entry point for the application
 main();
