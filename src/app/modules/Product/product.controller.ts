@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { TBook } from './product.interface';
 import { ProductServices } from './product.service';
 
+// creating a new book
 const createBook = async (req: Request, res: Response) => {
   try {
     const bookData: TBook = req.body;
@@ -22,6 +23,7 @@ const createBook = async (req: Request, res: Response) => {
   }
 };
 
+// retrieving all books
 const getAllBooks = async (req: Request, res: Response) => {
   try {
     const result = await ProductServices.getAllBooks();
@@ -41,6 +43,7 @@ const getAllBooks = async (req: Request, res: Response) => {
   }
 };
 
+// retrieving a single book by its ID
 const getSingleBook = async (req: Request, res: Response) => {
   try {
     const { productId } = req.params;
@@ -62,6 +65,7 @@ const getSingleBook = async (req: Request, res: Response) => {
   }
 };
 
+// updating a book by its ID
 const updateABook = async (req: Request, res: Response) => {
   try {
     const { productId } = req.params;
@@ -83,6 +87,7 @@ const updateABook = async (req: Request, res: Response) => {
   }
 };
 
+// deleting a book by its ID
 const deleteABook = async (req: Request, res: Response) => {
   try {
     const { productId } = req.params;
@@ -104,6 +109,7 @@ const deleteABook = async (req: Request, res: Response) => {
   }
 };
 
+// Export all product-related controllers
 export const ProductControllers = {
   createBook,
   getAllBooks,

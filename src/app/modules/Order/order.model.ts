@@ -1,6 +1,7 @@
 import mongoose, { model, Schema } from 'mongoose';
 import { TOrder } from './order.interface';
 
+// creating a schema for an Order based on TOrder type
 const orderSchema = new Schema<TOrder>(
   {
     email: {
@@ -41,5 +42,6 @@ const orderSchema = new Schema<TOrder>(
   },
 );
 
+// creating and exporting the Order model
 const Order = model<TOrder>('Order', orderSchema);
 export default Order;

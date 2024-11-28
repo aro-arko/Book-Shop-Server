@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { TOrder } from './order.interface';
 import { OrderServices } from './order.service';
 
+// handle the creation of an order
 const orderABook = async (req: Request, res: Response) => {
   try {
     const orderData: TOrder = req.body;
@@ -22,12 +23,14 @@ const orderABook = async (req: Request, res: Response) => {
   }
 };
 
+// handle fetching the total revenue from orders
 const getRevenue = async (req: Request, res: Response) => {
   const result = await OrderServices.getRevenue();
   try {
     res.status(200).json({
       message: 'Revenue calculated successfully',
       status: true,
+      // if result available unless set to 0
       data: result || {
         totalRevenue: 0,
       },
@@ -43,6 +46,7 @@ const getRevenue = async (req: Request, res: Response) => {
   }
 };
 
+// Exporting the controllers for use in the routes
 export const OrderControllers = {
   orderABook,
   getRevenue,

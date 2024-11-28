@@ -1,12 +1,13 @@
 import { Schema, model } from 'mongoose';
 import { TBook } from './product.interface';
 
+// creating bookSchema based on TBook Type
 const bookSchema = new Schema<TBook>(
   {
     title: {
       type: String,
       required: [true, 'Title is required'],
-      unique: true, // Ensures the title is unique
+      unique: true,
       trim: true,
       maxlength: [100, 'Title cannot exceed 100 characters'],
     },
@@ -58,6 +59,7 @@ bookSchema.post('save', function (error: any, doc: any, next: any) {
   }
 });
 
+// create and export the Book model
 const Book = model<TBook>('Books', bookSchema);
 
 export default Book;
