@@ -14,12 +14,11 @@ const auth = (...requiredRoles: TUserRole[]) => {
     // Retrieve token from headers
     const authHeader = req.headers.authorization;
 
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    if (!authHeader) {
       throw new AppError(httpStatus.UNAUTHORIZED, 'You are not authorized!');
     }
 
-    // Extract the token after 'Bearer '
-    const token = authHeader.split(' ')[1];
+    const token = authHeader;
 
     try {
       // Verify the token and decode it
@@ -27,10 +26,10 @@ const auth = (...requiredRoles: TUserRole[]) => {
         token,
         config.jwt_access_secret as string,
       ) as JwtPayload;
-      const { userEmail, userRole } = decoded;
+      const { email, role } = decoded;
 
       // Check if user exists
-      const user = await User.findOne({ email: userEmail });
+      const user = await User.findOne({ email: email });
       if (!user) {
         throw new AppError(httpStatus.NOT_FOUND, 'This user is not found!');
       }
@@ -41,7 +40,7 @@ const auth = (...requiredRoles: TUserRole[]) => {
       }
 
       // Check if the user's role is authorized
-      if (requiredRoles.length && !requiredRoles.includes(userRole)) {
+      if (requiredRoles.length && !requiredRoles.includes(role)) {
         throw new AppError(httpStatus.UNAUTHORIZED, 'You are not authorized!');
       }
 

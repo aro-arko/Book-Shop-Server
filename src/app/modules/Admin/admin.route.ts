@@ -5,7 +5,7 @@ import { AdminControllers } from './admin.controller';
 const router = express.Router();
 
 // block user
-router.patch('/users/:userId/block', auth('admin'), AdminControllers.blockUser);
+router.patch('/users/:email/block', auth('admin'), AdminControllers.blockUser);
 
 // delete blog
 // router.delete('/blogs/:id', auth('admin'), AdminControllers.deleteBlog);

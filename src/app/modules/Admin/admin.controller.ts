@@ -4,9 +4,9 @@ import httpStatus from 'http-status';
 import { AdminServices } from './admin.service';
 
 const blockUser = catchAsync(async (req, res) => {
-  const { userId } = req.params;
+  const { email } = req.params;
 
-  await AdminServices.blockUserIntoDB(userId);
+  await AdminServices.blockUserIntoDB(email);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
