@@ -1,5 +1,4 @@
 import httpStatus from 'http-status';
-import config from '../../config';
 import AppError from '../../errors/AppError';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
@@ -27,14 +26,7 @@ const createUser = catchAsync(async (req, res) => {
 
 const loginUser = catchAsync(async (req, res) => {
   const result = await AuthServices.loginUser(req.body);
-  const { refreshToken, accessToken } = result;
-
-  res.cookie('refreshToken', refreshToken, {
-    secure: config.NODE_ENV === 'production',
-    httpOnly: true,
-    // sameSite: 'none',
-    maxAge: 1000 * 60 * 60 * 24 * 365,
-  });
+  const { accessToken } = result;
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -54,18 +46,6 @@ const changePassword = catchAsync(async (req, res) => {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Password is updated succesfully!',
-    data: result,
-  });
-});
-
-const refreshToken = catchAsync(async (req, res) => {
-  const { refreshToken } = req.cookies;
-  const result = await AuthServices.refreshToken(refreshToken);
-
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Access token is retrieved succesfully!',
     data: result,
   });
 });
@@ -101,7 +81,6 @@ export const AuthControllers = {
   createUser,
   loginUser,
   changePassword,
-  refreshToken,
   forgetPassword,
   resetPassword,
 };

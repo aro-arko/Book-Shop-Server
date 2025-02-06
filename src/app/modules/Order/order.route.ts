@@ -10,4 +10,4 @@ router.post('/', OrderControllers.orderABook);
 router.get('/revenue', OrderControllers.getRevenue);
 
 // Exporting the order-related routes
-export const OrderRouters = router;
+export const OrderRoutes = router;

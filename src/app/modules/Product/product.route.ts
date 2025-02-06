@@ -1,13 +1,19 @@
 import express from 'express';
 import { ProductControllers } from './product.controller';
+import auth from '../../middlewares/auth';
+import { USER_ROLE } from '../User/user.constant';
 
 const router = express.Router();
 
 // Route for creating a new book
-router.post('/', ProductControllers.createBook);
+router.post('/', auth(USER_ROLE.admin), ProductControllers.createBook);
 
 // Route for retrieving all books
-router.get('/', ProductControllers.getAllBooks);
+router.get(
+  '/',
+  //   auth(USER_ROLE.admin, USER_ROLE.user),
+  ProductControllers.getAllBooks,
+);
 
 // Route for retrieving a single book by its ID
 router.get('/:productId', ProductControllers.getSingleBook);
@@ -19,4 +25,4 @@ router.put('/:productId', ProductControllers.updateABook);
 router.delete('/:productId', ProductControllers.deleteABook);
 
 // Exporting the router for use in the application
-export const ProductRouters = router;
+export const ProductRoutes = router;
