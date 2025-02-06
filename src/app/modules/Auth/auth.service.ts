@@ -1,10 +1,10 @@
 import config from '../../config';
-import AppError from '../../errors/AppErrror';
 import { TUser, TUserRole } from '../User/user.interface';
 import User from '../User/user.model';
 import httpStatus from 'http-status';
 import bcrypt from 'bcrypt';
 import { createToken } from './auth.utils';
+import AppError from '../../errors/AppError';
 
 const createUserIntoDB = async (password: string, payload: TUser) => {
   // checking is user exists
@@ -16,6 +16,7 @@ const createUserIntoDB = async (password: string, payload: TUser) => {
   // Create a user object and set the password
   const userData: Partial<TUser> = {
     ...payload,
+    // Use default password if not provided
     password: password,
   };
 

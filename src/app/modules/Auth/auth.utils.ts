@@ -1,4 +1,9 @@
-export type TLoginUser = {
-  email: string;
-  password: string;
+import jwt from 'jsonwebtoken';
+
+export const createToken = (
+  jwtPayload: { userEmail: string; userRole: string },
+  secret: string,
+  expiresIn: string,
+) => {
+  return jwt.sign(jwtPayload, { expiresIn });
 };
