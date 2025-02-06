@@ -26,10 +26,19 @@ router.get(
 router.get('/:productId', ProductControllers.getSingleBook);
 
 // Route for updating a book by its ID
-router.put('/:productId', ProductControllers.updateABook);
+router.put(
+  '/:productId',
+  auth(USER_ROLE.admin),
+  validateRequest(productValidationSchema.updateBookSchema),
+  ProductControllers.updateABook,
+);
 
 // Route for deleting a book by its ID
-router.delete('/:productId', ProductControllers.deleteABook);
+router.delete(
+  '/:productId',
+  auth(USER_ROLE.admin),
+  ProductControllers.deleteABook,
+);
 
 // Exporting the router for use in the application
 export const ProductRoutes = router;

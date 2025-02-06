@@ -6,7 +6,6 @@ const bookSchema = new Schema<TBook>(
     title: {
       type: String,
       required: [true, 'Title is required'],
-      unique: true,
       trim: true,
       maxlength: [100, 'Title cannot exceed 100 characters'],
     },
@@ -40,14 +39,6 @@ const bookSchema = new Schema<TBook>(
     inStock: {
       type: Boolean,
       required: [true, 'InStock is required'],
-      validate: {
-        validator: function (value: boolean) {
-          // If quantity is greater than 0, inStock must be true.
-          return this.quantity > 0 ? value === true : value === false;
-        },
-        message:
-          'InStock must be true if quantity is greater than 0, or false if quantity is 0.',
-      },
     },
   },
   {
