@@ -2,11 +2,18 @@ import express from 'express';
 import { ProductControllers } from './product.controller';
 import auth from '../../middlewares/auth';
 import { USER_ROLE } from '../User/user.constant';
+import validateRequest from '../../middlewares/validateRequest';
+import { productValidationSchema } from './product.validation';
 
 const router = express.Router();
 
 // Route for creating a new book
-router.post('/', auth(USER_ROLE.admin), ProductControllers.createBook);
+router.post(
+  '/',
+  auth(USER_ROLE.admin),
+  validateRequest(productValidationSchema.bookSchema),
+  ProductControllers.createBook,
+);
 
 // Route for retrieving all books
 router.get(
