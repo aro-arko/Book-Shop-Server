@@ -56,8 +56,6 @@ const createOrder = async (
     client_ip,
   };
 
-  console.log(shurjopayPayload);
-
   const payment = await orderUtils.makePaymentAsync(shurjopayPayload);
 
   if (payment?.transactionStatus) {
