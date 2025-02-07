@@ -31,6 +31,11 @@ const ProductSchema = new Schema<TProduct>(
       trim: true,
       maxlength: [500, 'Description cannot exceed 500 characters'],
     },
+    image: {
+      type: String,
+      required: [true, 'Image is required'],
+      trim: true,
+    },
     quantity: {
       type: Number,
       required: [true, 'Quantity is required'],
@@ -58,6 +63,6 @@ ProductSchema.post('save', function (error: any, doc: any, next: any) {
 });
 
 // Create and export the Book model
-const Product = model<TProduct>('Books', ProductSchema);
+const Product = model<TProduct>('Product', ProductSchema);
 
 export default Product;

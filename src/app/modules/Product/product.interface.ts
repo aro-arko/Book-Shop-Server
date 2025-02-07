@@ -13,6 +13,7 @@ export type TProduct = {
   price: number;
   category: ProductCategory;
   description: string;
+  image: string;
   quantity: number;
   inStock: boolean;
 };

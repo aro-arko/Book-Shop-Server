@@ -32,10 +32,6 @@ const createOrder = async (
       if (product) {
         const subtotal = product ? (product.price || 0) * item.quantity : 0;
         totalPrice += subtotal;
-        product.quantity -= item.quantity;
-        if (product.quantity == 0) {
-          product.inStock = false;
-        }
         return item;
       }
     }),
@@ -92,7 +88,7 @@ const verifyPayment = async (order_id: string) => {
   const verifiedPayment = await orderUtils.verifyPaymentAsync(order_id);
 
   if (verifiedPayment.length) {
-    await Order.findOneAndUpdate(
+    const updatedOrder = await Order.findOneAndUpdate(
       {
         'transaction.id': order_id,
       },
@@ -112,7 +108,22 @@ const verifyPayment = async (order_id: string) => {
                 ? 'Cancelled'
                 : '',
       },
+      { new: true },
     );
+
+    if (verifiedPayment[0].bank_status == 'Success') {
+      // Reduce product quantity and update inStock status
+      for (const item of updatedOrder!.products) {
+        const product = await Product.findById(item.product);
+        if (product) {
+          product.quantity -= item.quantity;
+          if (product.quantity <= 0) {
+            product.inStock = false;
+          }
+          await product.save();
+        }
+      }
+    }
   }
 
   return verifiedPayment;

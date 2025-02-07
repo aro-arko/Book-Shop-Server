@@ -9,6 +9,7 @@ const bookSchema = z.object({
     description: z
       .string()
       .min(10, 'Description must be at least 10 characters long'),
+    image: z.string(),
     quantity: z
       .number()
       .int()
@@ -26,6 +27,7 @@ const updateBookSchema = z.object({
       .string()
       .min(10, 'Description must be at least 10 characters long')
       .optional(),
+    image: z.string().optional(),
     quantity: z
       .number()
       .int()
