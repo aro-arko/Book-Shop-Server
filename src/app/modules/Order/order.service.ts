@@ -20,9 +20,22 @@ const createOrder = async (
   const productDetails = await Promise.all(
     products.map(async (item) => {
       const product = await Product.findById(item.product);
+      if (
+        (product && product?.quantity < item.quantity) ||
+        product?.quantity == 0
+      ) {
+        throw new AppError(
+          httpStatus.NOT_ACCEPTABLE,
+          'Product is out of stock',
+        );
+      }
       if (product) {
         const subtotal = product ? (product.price || 0) * item.quantity : 0;
         totalPrice += subtotal;
+        product.quantity -= item.quantity;
+        if (product.quantity == 0) {
+          product.inStock = false;
+        }
         return item;
       }
     }),
