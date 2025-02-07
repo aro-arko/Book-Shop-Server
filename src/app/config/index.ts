@@ -12,4 +12,11 @@ export default {
   jwt_access_secret: process.env.JWT_ACCESS_SECRET,
   jwt_access_expires_in: process.env.JWT_ACCESS_EXPIRES_IN,
   reset_pass_ui_link: process.env.RESET_PASS_UI_LINK,
+  sp: {
+    sp_endpoint: process.env.SP_ENDPOINT,
+    sp_username: process.env.SP_USERNAME,
+    sp_password: process.env.SP_PASSWORD,
+    sp_prefix: process.env.SP_PREFIX,
+    sp_return_url: process.env.SP_RETURN_URL,
+  },
 };

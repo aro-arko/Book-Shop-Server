@@ -1,47 +1,50 @@
-import mongoose, { model, Schema } from 'mongoose';
-import { TOrder } from './order.interface';
+import { model, Schema } from 'mongoose';
+import { IOrder } from './order.interface';
 
-// creating a schema for an Order based on TOrder type
-const orderSchema = new Schema<TOrder>(
+const OrderSchema = new Schema<IOrder>(
   {
-    email: {
-      type: String,
-      required: true,
-      trim: true,
-      lowercase: true,
-      match: [
-        /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-        'Please provide a valid email address',
-      ],
-    },
-    product: {
-      type: mongoose.Schema.Types.ObjectId,
+    user: {
+      type: Schema.Types.ObjectId,
       ref: 'Product',
       required: true,
     },
-    quantity: {
-      type: Number,
-      required: true,
-      min: [1, 'Quantity must be at least 1'],
-    },
+    products: [
+      {
+        product: {
+          type: Schema.Types.ObjectId,
+          ref: 'Product',
+          required: true,
+        },
+        quantity: {
+          type: Number,
+          required: true,
+        },
+      },
+    ],
     totalPrice: {
       type: Number,
       required: true,
-      min: [0, 'Total price must be at least 0'],
-      validate: {
-        validator: function (value: number) {
-          return Number.isInteger(value);
-        },
-        message: 'Total price must be an integer value',
-      },
+    },
+    status: {
+      type: String,
+      enum: ['Pending', 'Paid', 'Shipped', 'Completed', 'Cancelled'],
+      default: 'Pending',
+    },
+    transaction: {
+      id: String,
+      transactionStatus: String,
+      bank_status: String,
+      sp_code: String,
+      sp_message: String,
+      method: String,
+      date_time: String,
     },
   },
   {
     timestamps: true,
-    versionKey: false,
   },
 );
 
-// creating and exporting the Order model
-const Order = model<TOrder>('Order', orderSchema);
+const Order = model<IOrder>('Order', OrderSchema);
+
 export default Order;

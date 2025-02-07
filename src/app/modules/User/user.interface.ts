@@ -2,19 +2,21 @@
 import { Model } from 'mongoose';
 import { USER_ROLE } from './user.constant';
 
-export type TUser = {
+export interface IUser extends Document {
   name: string;
   email: string;
   password: string;
   role: 'admin' | 'user';
-  passwordChangedAt?: Date;
-  isDeleted: boolean;
-  isBlocked: boolean;
-};
+  phone?: string;
+  address?: string;
+  city?: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
 
-export interface UserModel extends Model<TUser> {
+export interface UserModel extends Model<IUser> {
   //instance methods for checking if the user exist
-  isUserExistsByEmail(email: string): Promise<TUser>;
+  isUserExistsByEmail(email: string): Promise<IUser>;
   //instance methods for checking if passwords are matched
   isPasswordMatched(
     plainTextPassword: string,

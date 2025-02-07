@@ -1,18 +1,18 @@
 import QueryBuilder from '../../builder/QueryBuilder';
 import { productSearchAbleFields } from './product.constant';
-import { TBook } from './product.interface';
-import Book from './product.model';
+import { TProduct } from './product.interface';
+import Product from './product.model';
 
 // create and insert book data into database
-const createBookIntoDB = async (new_book: TBook) => {
-  const result = await Book.create(new_book);
+const createBookIntoDB = async (new_book: TProduct) => {
+  const result = await Product.create(new_book);
   return result;
 };
 
 // finding all the books from our database
 const getAllBooks = async (query: Record<string, unknown>) => {
   // let result;
-  const productsQuery = new QueryBuilder(Book.find(), query)
+  const productsQuery = new QueryBuilder(Product.find(), query)
     .search(productSearchAbleFields)
     .filter()
     .sort()
@@ -25,12 +25,12 @@ const getAllBooks = async (query: Record<string, unknown>) => {
 
 // find individual book by their id
 const getSingleBook = async (productId: string) => {
-  const book = await Book.findById(productId);
+  const book = await Product.findById(productId);
   if (!book) {
     throw new Error('Book not found');
   }
 
-  const result = await Book.findOne({
+  const result = await Product.findOne({
     _id: productId,
   });
   // console.log(result);
@@ -40,11 +40,11 @@ const getSingleBook = async (productId: string) => {
 // update individual book data by their respective productId
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const updateABook = async (productId: string, updateData: any) => {
-  const book = await Book.findById(productId);
+  const book = await Product.findById(productId);
   if (!book) {
     throw new Error('Book not found!');
   }
-  const result = await Book.findByIdAndUpdate(
+  const result = await Product.findByIdAndUpdate(
     productId,
     { $set: updateData },
     { new: true, runValidators: true },
@@ -54,11 +54,11 @@ const updateABook = async (productId: string, updateData: any) => {
 
 // deleting a book
 const deleteABook = async (productId: string) => {
-  const book = await Book.findById(productId);
+  const book = await Product.findById(productId);
   if (!book) {
     throw new Error('Book not found!');
   }
-  const result = Book.findByIdAndDelete(productId, { new: true });
+  const result = Product.findByIdAndDelete(productId, { new: true });
   return result;
 };
 

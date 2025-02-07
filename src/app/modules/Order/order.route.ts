@@ -1,22 +1,15 @@
-import express from 'express';
-import { OrderControllers } from './order.controller';
+import { Router } from 'express';
 import auth from '../../middlewares/auth';
 import { USER_ROLE } from '../User/user.constant';
-import validateRequest from '../../middlewares/validateRequest';
-import { orderValidationSchema } from './order.validation';
+import { orderController } from './order.controller';
 
-const router = express.Router();
+const orderRouter = Router();
 
-// Route for placing an order for a book
-router.post(
-  '/',
-  auth(USER_ROLE.user),
-  validateRequest(orderValidationSchema.orderSchema),
-  OrderControllers.orderABook,
-);
+orderRouter.get('/verify', auth(USER_ROLE.user), orderController.verifyPayment);
 
-// Route for retrieving the total revenue from all orders
-router.get('/revenue', auth(USER_ROLE.admin), OrderControllers.getRevenue);
+orderRouter
+  .route('/')
+  .post(auth(USER_ROLE.user), orderController.createOrder)
+  .get(auth(USER_ROLE.user), orderController.getOrders);
 
-// Exporting the order-related routes
-export const OrderRoutes = router;
+export default orderRouter;

@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
-import { TBook } from './product.interface';
+import { TProduct } from './product.interface';
 import { ProductServices } from './product.service';
 
 // creating a new book
 const createBook = async (req: Request, res: Response) => {
   try {
-    const bookData: TBook = req.body;
+    const bookData: TProduct = req.body;
     const result = await ProductServices.createBookIntoDB(bookData);
     res.status(200).json({
       message: 'Book created successfully',

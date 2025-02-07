@@ -1,53 +1,42 @@
-import { Request, Response } from 'express';
-import { TOrder } from './order.interface';
-import { OrderServices } from './order.service';
+import catchAsync from '../../utils/catchAsync';
+import sendResponse from '../../utils/sendResponse';
+import { orderService } from './order.service';
+import httpStatus from 'http-status';
 
-// handle the creation of an order
-const orderABook = async (req: Request, res: Response) => {
-  try {
-    const orderData: TOrder = req.body;
-    const result = await OrderServices.createOrderIntoDB(orderData);
-    res.status(200).json({
-      message: 'Order created successfully',
-      status: true,
-      data: result,
-    });
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (error: any) {
-    res.status(500).json({
-      message: error.message,
-      success: false,
-      error: error,
-      stack: error.stack,
-    });
-  }
-};
+const createOrder = catchAsync(async (req, res) => {
+  const user = req.user;
+  console.log(user);
+  console.log(req.body);
+  const order = await orderService.createOrder(user, req.body, req.ip!);
 
-// handle fetching the total revenue from orders
-const getRevenue = async (req: Request, res: Response) => {
-  const result = await OrderServices.getRevenue();
-  try {
-    res.status(200).json({
-      message: 'Revenue calculated successfully',
-      status: true,
-      // if result available unless set to 0
-      data: result || {
-        totalRevenue: 0,
-      },
-    });
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (error: any) {
-    res.status(500).json({
-      message: error.message,
-      success: false,
-      error: error,
-      stack: error.stack,
-    });
-  }
-};
+  sendResponse(res, {
+    statusCode: httpStatus.CREATED,
+    success: true,
+    message: 'Order placed successfully',
+    data: order,
+  });
+});
 
-// Exporting the controllers for use in the routes
-export const OrderControllers = {
-  orderABook,
-  getRevenue,
-};
+const getOrders = catchAsync(async (req, res) => {
+  const order = await orderService.getOrders();
+
+  sendResponse(res, {
+    statusCode: httpStatus.CREATED,
+    success: true,
+    message: 'Order retrieved successfully',
+    data: order,
+  });
+});
+
+const verifyPayment = catchAsync(async (req, res) => {
+  const order = await orderService.verifyPayment(req.query.order_id as string);
+
+  sendResponse(res, {
+    statusCode: httpStatus.CREATED,
+    success: true,
+    message: 'Order verified successfully',
+    data: order,
+  });
+});
+
+export const orderController = { createOrder, verifyPayment, getOrders };

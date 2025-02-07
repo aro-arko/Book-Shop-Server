@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-this-alias */
 import { Schema, model } from 'mongoose';
-import { TUser, UserModel } from './user.interface';
+import { IUser, UserModel } from './user.interface';
 import bcrypt from 'bcrypt';
 import config from '../../config';
 
-const userSchema = new Schema<TUser>(
+const userSchema = new Schema<IUser>(
   {
     name: {
       type: String,
@@ -15,6 +15,7 @@ const userSchema = new Schema<TUser>(
       type: String,
       required: true,
       unique: true,
+      immutable: true,
       trim: true,
     },
     password: {
@@ -26,14 +27,9 @@ const userSchema = new Schema<TUser>(
       enum: ['admin', 'user'],
       default: 'user',
     },
-    isDeleted: {
-      type: Boolean,
-      default: false,
-    },
-    isBlocked: {
-      type: Boolean,
-      default: false,
-    },
+    phone: { type: String, default: 'N/A' },
+    address: { type: String, default: 'N/A' },
+    city: { type: String, default: 'N/A' },
   },
   {
     timestamps: true,
@@ -72,6 +68,6 @@ userSchema.statics.isJWTIssuedBeforePasswordChanged = function (
   return passwordChangedTime > jwtIssuedTimestamp;
 };
 
-const User = model<TUser, UserModel>('User', userSchema);
+const User = model<IUser, UserModel>('User', userSchema);
 
 export default User;

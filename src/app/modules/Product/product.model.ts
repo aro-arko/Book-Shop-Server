@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose';
-import { TBook } from './product.interface';
+import { TProduct } from './product.interface';
 
-const bookSchema = new Schema<TBook>(
+const ProductSchema = new Schema<TProduct>(
   {
     title: {
       type: String,
@@ -49,7 +49,7 @@ const bookSchema = new Schema<TBook>(
 
 // Middleware to handle unique constraint errors
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-bookSchema.post('save', function (error: any, doc: any, next: any) {
+ProductSchema.post('save', function (error: any, doc: any, next: any) {
   if (error.code === 11000) {
     next(new Error('This title is already in the list.'));
   } else {
@@ -58,6 +58,6 @@ bookSchema.post('save', function (error: any, doc: any, next: any) {
 });
 
 // Create and export the Book model
-const Book = model<TBook>('Books', bookSchema);
+const Product = model<TProduct>('Books', ProductSchema);
 
-export default Book;
+export default Product;

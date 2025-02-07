@@ -1,96 +1,114 @@
-import Book from '../Product/product.model';
-import { TOrder } from './order.interface';
 import Order from './order.model';
+import httpStatus from 'http-status';
+import AppError from '../../errors/AppError';
+import Product from '../Product/product.model';
+import { orderUtils } from './order.utils';
+import { JwtPayload } from 'jsonwebtoken';
+import User from '../User/user.model';
 
-const createOrderIntoDB = async (new_order: TOrder) => {
-  // Find the product
-  const book = await Book.findById(new_order.product);
-  if (!book) {
-    throw new Error('Product not found');
+const createOrder = async (
+  user: JwtPayload,
+  payload: { products: { product: string; quantity: number }[] },
+  client_ip: string,
+) => {
+  if (!payload?.products?.length)
+    throw new AppError(httpStatus.NOT_ACCEPTABLE, 'Order is not specified');
+
+  const products = payload.products;
+
+  let totalPrice = 0;
+  const productDetails = await Promise.all(
+    products.map(async (item) => {
+      const product = await Product.findById(item.product);
+      if (product) {
+        const subtotal = product ? (product.price || 0) * item.quantity : 0;
+        totalPrice += subtotal;
+        return item;
+      }
+    }),
+  );
+
+  const { email } = user;
+  // console.log(email);
+
+  const userDocument = await User.findOne({ email });
+  const userId = userDocument?._id;
+  // console.log(userId);
+
+  let order = await Order.create({
+    user: userId,
+    products: productDetails,
+    totalPrice,
+  });
+
+  const userData = await User.findById(userId);
+
+  // payment integration
+  const shurjopayPayload = {
+    amount: totalPrice,
+    order_id: order._id,
+    currency: 'BDT',
+    customer_name: userData?.name,
+    customer_address: userData?.address,
+    customer_email: userData?.email,
+    customer_phone: userData?.phone,
+    customer_city: userData?.city,
+    client_ip,
+  };
+
+  console.log(shurjopayPayload);
+
+  const payment = await orderUtils.makePaymentAsync(shurjopayPayload);
+
+  if (payment?.transactionStatus) {
+    order = await order.updateOne({
+      transaction: {
+        id: payment.sp_order_id,
+        transactionStatus: payment.transactionStatus,
+      },
+    });
   }
 
-  // Check if the quantity is sufficient
-  if (book.quantity < new_order.quantity) {
-    throw new Error(`Insufficient stock. Available quantity: ${book.quantity}`);
-  }
+  return payment.checkout_url;
+};
 
-  // Calculate the expected total price
-  const expectedTotalPrice = book.price * new_order.quantity;
+const getOrders = async () => {
+  const data = await Order.find();
+  return data;
+};
 
-  // Check if the provided total price matches the expected price
-  if (new_order.totalPrice !== expectedTotalPrice) {
-    throw new Error(
-      `Incorrect total price. Expected ${expectedTotalPrice}, but got ${new_order.totalPrice}`,
+const verifyPayment = async (order_id: string) => {
+  const verifiedPayment = await orderUtils.verifyPaymentAsync(order_id);
+
+  if (verifiedPayment.length) {
+    await Order.findOneAndUpdate(
+      {
+        'transaction.id': order_id,
+      },
+      {
+        'transaction.bank_status': verifiedPayment[0].bank_status,
+        'transaction.sp_code': verifiedPayment[0].sp_code,
+        'transaction.sp_message': verifiedPayment[0].sp_message,
+        'transaction.transactionStatus': verifiedPayment[0].transaction_status,
+        'transaction.method': verifiedPayment[0].method,
+        'transaction.date_time': verifiedPayment[0].date_time,
+        status:
+          verifiedPayment[0].bank_status == 'Success'
+            ? 'Paid'
+            : verifiedPayment[0].bank_status == 'Failed'
+              ? 'Pending'
+              : verifiedPayment[0].bank_status == 'Cancel'
+                ? 'Cancelled'
+                : '',
+      },
     );
   }
 
-  // Decrease the quantity in the product model and update inStock if needed
-  const updatedBook = await Book.findByIdAndUpdate(
-    new_order.product,
-    {
-      $inc: { quantity: -new_order.quantity },
-      $set: {
-        inStock: book.quantity - new_order.quantity <= 0 ? false : book.inStock,
-      },
-    },
-    { new: true },
-  );
-
-  // If the book update fails, throw an error
-  if (!updatedBook) {
-    throw new Error('Failed to update product data');
-  }
-
-  // Create the order and store it in the database
-  const result = await Order.create(new_order);
-
-  return result;
+  return verifiedPayment;
 };
 
-// calculate the total revenue from orders
-const getRevenue = async () => {
-  const [result] = await Order.aggregate([
-    {
-      // reference from books collection
-      $lookup: {
-        from: 'books',
-        localField: 'product',
-        foreignField: '_id',
-        as: 'bookDetails',
-      },
-    },
-    // breaking down bookDetails array fields
-    {
-      $unwind: '$bookDetails',
-    },
-    // adding new field name: revenue & performing multiplication with the book price with order quantity
-    {
-      $addFields: {
-        revenue: {
-          $multiply: ['$bookDetails.price', '$quantity'],
-        },
-      },
-    },
-    // grouping all together - not id wise - and all the revenue that performed via _id is counted total here
-    {
-      $group: {
-        _id: null,
-        totalRevenue: { $sum: '$revenue' },
-      },
-    },
-    // just to present the totalRevenue in output
-    {
-      $project: {
-        _id: 0,
-        totalRevenue: 1,
-      },
-    },
-  ]);
-
-  return result;
-};
-
-export const OrderServices = {
-  createOrderIntoDB,
-  getRevenue,
+export const orderService = {
+  createOrder,
+  getOrders,
+  verifyPayment,
 };

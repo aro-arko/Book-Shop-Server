@@ -16,11 +16,7 @@ router.post(
 );
 
 // Route for retrieving all books
-router.get(
-  '/',
-  //   auth(USER_ROLE.admin, USER_ROLE.user),
-  ProductControllers.getAllBooks,
-);
+router.get('/', ProductControllers.getAllBooks);
 
 // Route for retrieving a single book by its ID
 router.get('/:productId', ProductControllers.getSingleBook);

@@ -1,5 +1,5 @@
 // Defines possible categories for books
-type BookCategory =
+type ProductCategory =
   | 'Fiction'
   | 'Science'
   | 'SelfDevelopment'
@@ -7,11 +7,11 @@ type BookCategory =
   | 'Religious';
 
 // Type definition for a book object
-export type TBook = {
+export type TProduct = {
   title: string;
   author: string;
   price: number;
-  category: BookCategory;
+  category: ProductCategory;
   description: string;
   quantity: number;
   inStock: boolean;
