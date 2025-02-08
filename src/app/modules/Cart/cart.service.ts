@@ -75,6 +75,7 @@ const addToCart = async (
   await cart.save();
 };
 
+// Remove product from cart
 const removeFromCart = async (user: JwtPayload, productId: string) => {
   const { email } = user;
   const userDetails = await User.findOne({ email: email });
