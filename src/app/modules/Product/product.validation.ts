@@ -17,6 +17,8 @@ const bookSchema = z.object({
     inStock: z.boolean(),
   }),
 });
+
+// update book schema
 const updateBookSchema = z.object({
   body: z.object({
     title: z.string().min(1, 'Title is required').optional(),
