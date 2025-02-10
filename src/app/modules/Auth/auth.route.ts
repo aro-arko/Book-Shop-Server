@@ -22,6 +22,7 @@ router.post(
   AuthControllers.loginUser,
 );
 
+// change password
 router.post(
   '/change-password',
   auth(USER_ROLE.admin, USER_ROLE.user),
@@ -29,12 +30,14 @@ router.post(
   AuthControllers.changePassword,
 );
 
+// forget password
 router.post(
   '/forget-password',
   validateRequest(AuthValidation.forgetPasswordValidationSchema),
   AuthControllers.forgetPassword,
 );
 
+// reset password
 router.post(
   '/reset-password',
   validateRequest(AuthValidation.forgetPasswordValidationSchema),
