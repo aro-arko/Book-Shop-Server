@@ -6,5 +6,10 @@ import { USER_ROLE } from './user.constant';
 const router = express.Router();
 
 router.get('/', auth(USER_ROLE.admin), UserControllers.getAllUser);
+router.patch(
+  '/:userId',
+  auth(USER_ROLE.admin, USER_ROLE.user),
+  UserControllers.updateUser,
+);
 
 export const UserRoutes = router;

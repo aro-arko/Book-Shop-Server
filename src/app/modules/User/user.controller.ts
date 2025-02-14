@@ -13,6 +13,24 @@ const getAllUser = catchAsync(async (req, res) => {
   });
 });
 
+const updateUser = catchAsync(async (req, res) => {
+  const { userId } = req.params;
+  const currentUserEmail = req.user.email;
+  // console.log(user);
+  const result = await UserServices.updateUserInDB(
+    currentUserEmail,
+    userId,
+    req.body,
+  );
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'User is updated successfully',
+    data: result,
+  });
+});
+
 export const UserControllers = {
   getAllUser,
+  updateUser,
 };
