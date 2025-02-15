@@ -9,7 +9,7 @@ const app = express();
 
 // Middleware setup
 app.use(express.json());
-app.use(cors());
+app.use(cors({ origin: true }));
 app.use(bodyParser.json());
 
 // Route handlers

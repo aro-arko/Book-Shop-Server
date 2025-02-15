@@ -7,9 +7,9 @@ import { TLoginUser } from './auth.interface';
 import { createToken } from './auth.utils';
 import User from '../User/user.model';
 import { sendEmail } from '../../utils/sendEmail';
-import { TUser } from '../User/user.interface';
+import { IUser } from '../User/user.interface';
 
-const createUserIntoDB = async (password: string, payload: TUser) => {
+const createUserIntoDB = async (password: string, payload: IUser) => {
   // checking is user exists
   const isUserExists = await User.findOne({ email: payload.email });
   if (isUserExists) {
@@ -17,7 +17,7 @@ const createUserIntoDB = async (password: string, payload: TUser) => {
   }
 
   // Create a user object and set the password
-  const userData: Partial<TUser> = {
+  const userData: Partial<IUser> = {
     ...payload,
     // Use default password if not provided
     password: password,
@@ -34,20 +34,6 @@ const loginUser = async (payload: TLoginUser) => {
 
   if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, 'This user is not found !');
-  }
-  // checking if the user is already deleted
-  const isDeleted = user?.isDeleted;
-
-  if (isDeleted) {
-    throw new AppError(httpStatus.FORBIDDEN, 'This user is deleted !');
-  }
-
-  // checking if the user is blocked
-
-  const userStatus = user?.isBlocked;
-
-  if (userStatus === true) {
-    throw new AppError(httpStatus.FORBIDDEN, 'This user is blocked ! !');
   }
 
   //checking if the password is correct
@@ -84,18 +70,6 @@ const changePassword = async (
   if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, 'This user is not found !');
   }
-  const isDeleted = user?.isDeleted;
-
-  if (isDeleted) {
-    throw new AppError(httpStatus.FORBIDDEN, 'This user is deleted !');
-  }
-  // checking if the user is blocked
-
-  const userStatus = user?.isBlocked;
-
-  if (userStatus === true) {
-    throw new AppError(httpStatus.FORBIDDEN, 'This user is blocked ! !');
-  }
 
   //checking if the password is correct
 
@@ -130,19 +104,6 @@ const forgetPassword = async (email: string) => {
   if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, 'This user is not found !');
   }
-
-  const isDeleted = user?.isDeleted;
-
-  if (isDeleted) {
-    throw new AppError(httpStatus.FORBIDDEN, 'This user is deleted !');
-  }
-  // checking if the user is blocked
-  const userStatus = user?.isBlocked;
-
-  if (userStatus === true) {
-    throw new AppError(httpStatus.FORBIDDEN, 'This user is blocked ! !');
-  }
-
   const jwtPayload = {
     email: user.email,
     role: user.role,
@@ -154,7 +115,7 @@ const forgetPassword = async (email: string) => {
     '10m',
   );
 
-  const resetUILink = `${config.reset_pass_ui_link}?email=${user.email}&token=${resetToken} `;
+  const resetUILink = `${config.reset_pass_ui_link}reset-password?email=${user.email}&token=${resetToken} `;
 
   sendEmail(user.email, resetUILink);
 };
@@ -168,19 +129,6 @@ const resetPassword = async (
 
   if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, 'This user is not found !');
-  }
-  // checking if the user is already deleted
-  const isDeleted = user?.isDeleted;
-
-  if (isDeleted) {
-    throw new AppError(httpStatus.FORBIDDEN, 'This user is deleted !');
-  }
-
-  // checking if the user is blocked
-  const userStatus = user?.isBlocked;
-
-  if (userStatus === true) {
-    throw new AppError(httpStatus.FORBIDDEN, 'This user is blocked ! !');
   }
 
   const decoded = jwt.verify(
