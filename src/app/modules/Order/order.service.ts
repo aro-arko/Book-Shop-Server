@@ -130,7 +130,7 @@ const verifyPayment = async (order_id: string) => {
 };
 
 const getAllOrders = async () => {
-  const orders = await Order.find();
+  const orders = await Order.find().sort({ createdAt: -1 }); // Sort by createdAt in descending order
   return orders;
 };
 
