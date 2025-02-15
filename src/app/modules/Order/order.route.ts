@@ -12,4 +12,6 @@ orderRouter
   .post(auth(USER_ROLE.user), orderController.createOrder)
   .get(auth(USER_ROLE.user), orderController.getOrders);
 
+orderRouter.get('/all', auth(USER_ROLE.admin), orderController.getAllOrders);
+
 export default orderRouter;

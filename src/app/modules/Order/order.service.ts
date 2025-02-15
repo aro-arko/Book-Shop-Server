@@ -129,8 +129,14 @@ const verifyPayment = async (order_id: string) => {
   return verifiedPayment;
 };
 
+const getAllOrders = async () => {
+  const orders = await Order.find();
+  return orders;
+};
+
 export const orderService = {
   createOrder,
   getOrders,
   verifyPayment,
+  getAllOrders,
 };
