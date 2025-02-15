@@ -7,9 +7,10 @@ const router = express.Router();
 
 router.get('/', auth(USER_ROLE.admin), UserControllers.getAllUser);
 router.patch(
-  '/:userId',
+  '/:userEmail',
   auth(USER_ROLE.admin, USER_ROLE.user),
   UserControllers.updateUser,
 );
+router.get('/me', auth(USER_ROLE.admin, USER_ROLE.user), UserControllers.getMe);
 
 export const UserRoutes = router;

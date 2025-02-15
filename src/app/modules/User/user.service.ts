@@ -10,24 +10,28 @@ const getAllUserFromDB = async () => {
 
 const updateUserInDB = async (
   currentUserEmail: string,
-  userId: string,
+  userEmail: string,
   payLoad: IUser,
 ) => {
-  const currentUser = await User.findOne({ email: currentUserEmail });
-  const currentUserId = currentUser?._id.toString();
-  // console.log(currentUserId, userId);
-
-  if (currentUserId !== userId) {
+  if (currentUserEmail !== userEmail) {
     throw new AppError(
       httpStatus.FORBIDDEN,
       'You are not authorized to update this user',
     );
   }
-  const result = User.findByIdAndUpdate(userId, payLoad, { new: true });
+  const result = await User.findOneAndUpdate({ email: userEmail }, payLoad, {
+    new: true,
+  });
+  return result;
+};
+
+const getMeFromDB = async (email: string) => {
+  const result = await User.findOne({ email: email });
   return result;
 };
 
 export const UserServices = {
   getAllUserFromDB,
   updateUserInDB,
+  getMeFromDB,
 };
