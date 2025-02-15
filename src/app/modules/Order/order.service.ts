@@ -134,9 +134,16 @@ const getAllOrders = async () => {
   return orders;
 };
 
+const getSingleOrder = async (orderId: string) => {
+  const order = await Order.findById(orderId);
+  if (!order) throw new AppError(httpStatus.NOT_FOUND, 'Order not found');
+  return order;
+};
+
 export const orderService = {
   createOrder,
   getOrders,
   verifyPayment,
   getAllOrders,
+  getSingleOrder,
 };

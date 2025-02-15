@@ -13,5 +13,10 @@ orderRouter
   .get(auth(USER_ROLE.user), orderController.getOrders);
 
 orderRouter.get('/all', auth(USER_ROLE.admin), orderController.getAllOrders);
+orderRouter.get(
+  '/:orderId',
+  auth(USER_ROLE.admin),
+  orderController.getSingleOrder,
+);
 
 export default orderRouter;
