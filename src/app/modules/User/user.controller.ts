@@ -41,8 +41,21 @@ const getMe = catchAsync(async (req, res) => {
   });
 });
 
+const getUserById = catchAsync(async (req, res) => {
+  const { userId } = req.params;
+  const result = await UserServices.getUserByIdFromDB(userId);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'User is retrieved successfully',
+    data: result,
+  });
+});
+
 export const UserControllers = {
   getAllUser,
   updateUser,
   getMe,
+  getUserById,
 };

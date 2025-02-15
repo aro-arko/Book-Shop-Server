@@ -30,8 +30,14 @@ const getMeFromDB = async (email: string) => {
   return result;
 };
 
+const getUserByIdFromDB = async (userId: string) => {
+  const result = await User.findById(userId);
+  return result;
+};
+
 export const UserServices = {
   getAllUserFromDB,
   updateUserInDB,
   getMeFromDB,
+  getUserByIdFromDB,
 };
