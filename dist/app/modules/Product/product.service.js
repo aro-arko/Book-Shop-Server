@@ -13,6 +13,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProductServices = void 0;
+const QueryBuilder_1 = __importDefault(require("../../builder/QueryBuilder"));
+const product_constant_1 = require("./product.constant");
 const product_model_1 = __importDefault(require("./product.model"));
 // create and insert book data into database
 const createBookIntoDB = (new_book) => __awaiter(void 0, void 0, void 0, function* () {
@@ -20,29 +22,16 @@ const createBookIntoDB = (new_book) => __awaiter(void 0, void 0, void 0, functio
     return result;
 });
 // finding all the books from our database
-const getAllBooks = (searchTerm) => __awaiter(void 0, void 0, void 0, function* () {
-    let result;
-    if (searchTerm) {
-        // If searchTerm exists
-        result = yield product_model_1.default.find({
-            $or: [
-                // going with case insensitive
-                { title: { $regex: searchTerm, $options: 'i' } },
-                { author: { $regex: searchTerm, $options: 'i' } },
-                { category: { $regex: searchTerm, $options: 'i' } },
-            ],
-        });
-    }
-    else {
-        // Otherwise, fetch all books
-        result = yield product_model_1.default.find();
-    }
-    if (result.length > 0) {
-        return result;
-    }
-    else {
-        throw new Error('No books found!');
-    }
+const getAllBooks = (query) => __awaiter(void 0, void 0, void 0, function* () {
+    // let result;
+    const productsQuery = new QueryBuilder_1.default(product_model_1.default.find(), query)
+        .search(product_constant_1.productSearchAbleFields)
+        .filter()
+        .sort()
+        .paginate()
+        .fields();
+    const result = yield productsQuery.modelQuery;
+    return result;
 });
 // find individual book by their id
 const getSingleBook = (productId) => __awaiter(void 0, void 0, void 0, function* () {

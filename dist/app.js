@@ -5,17 +5,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
-const product_route_1 = require("./app/modules/Product/product.route");
-const order_route_1 = require("./app/modules/Order/order.route");
+const body_parser_1 = __importDefault(require("body-parser"));
+const routes_1 = __importDefault(require("./app/routes"));
+const notFound_1 = __importDefault(require("./app/middlewares/notFound"));
+const globalErrorHandler_1 = __importDefault(require("./app/middlewares/globalErrorHandler"));
 const app = (0, express_1.default)();
 // Middleware setup
 app.use(express_1.default.json());
-app.use((0, cors_1.default)());
+app.use((0, cors_1.default)({ origin: true }));
+app.use(body_parser_1.default.json());
 // Route handlers
-app.use('/api/products', product_route_1.ProductRouters);
-app.use('/api/orders', order_route_1.OrderRouters);
+app.use('/api', routes_1.default);
 // Root endpoint
 app.get('/', (req, res) => {
     res.send('Welcome to BookShop backend server!');
 });
+app.use(notFound_1.default);
+app.use(globalErrorHandler_1.default);
 exports.default = app;
