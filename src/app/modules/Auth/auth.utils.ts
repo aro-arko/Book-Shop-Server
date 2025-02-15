@@ -5,9 +5,9 @@ export const createToken = (
   secret: string,
   expiresIn: string,
 ) => {
-  return jwt.sign(jwtPayload, secret, {
-    expiresIn,
-  });
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  return jwt.sign(jwtPayload, secret, { expiresIn: expiresIn as string });
 };
 
 export const verifyToken = (token: string, secret: string) => {

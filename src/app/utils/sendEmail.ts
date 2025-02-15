@@ -5,10 +5,10 @@ export const sendEmail = async (to: string, resetLink: string) => {
   const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 587,
-    secure: config.NODE_ENV === 'production',
+    secure: config.node_env === 'production',
     auth: {
-      user: 'aroarko.sd@gmail.com',
-      pass: 'bwml qrso lidd gxwu',
+      user: config.smtp_user,
+      pass: config.smtp_pass,
     },
   });
 
@@ -79,7 +79,7 @@ export const sendEmail = async (to: string, resetLink: string) => {
           <p>This link will expire in 10 minutes for security reasons.</p>
         </div>
         <div class="footer">
-          &copy; 2025 Your Company. All rights reserved.
+          &copy; 2025 Aro Arko. All rights reserved.
         </div>
       </div>
     </body>

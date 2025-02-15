@@ -6,7 +6,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const user_route_1 = require("../modules/User/user.route");
 const auth_route_1 = require("../modules/Auth/auth.route");
-const admin_route_1 = require("../modules/Admin/admin.route");
 const product_route_1 = require("../modules/Product/product.route");
 const order_route_1 = __importDefault(require("../modules/Order/order.route"));
 const cart_route_1 = __importDefault(require("../modules/Cart/cart.route"));
@@ -19,10 +18,6 @@ const moduleRoutes = [
     {
         path: '/user',
         route: user_route_1.UserRoutes,
-    },
-    {
-        path: '/admin',
-        route: admin_route_1.AdminRoutes,
     },
     {
         path: '/product',

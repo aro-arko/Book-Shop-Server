@@ -12,7 +12,13 @@ const globalErrorHandler_1 = __importDefault(require("./app/middlewares/globalEr
 const app = (0, express_1.default)();
 // Middleware setup
 app.use(express_1.default.json());
-app.use((0, cors_1.default)({ origin: true }));
+// Enable CORS
+app.use((0, cors_1.default)({
+    origin: ['http://localhost:5173', 'https://your-deployed-frontend.com'], // Allow frontend URLs
+    methods: 'GET, POST, PUT, PATCH, DELETE',
+    allowedHeaders: 'Content-Type, Authorization',
+    credentials: true,
+}));
 app.use(body_parser_1.default.json());
 // Route handlers
 app.use('/api', routes_1.default);

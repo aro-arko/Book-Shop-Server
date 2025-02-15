@@ -4,7 +4,7 @@ import path from 'path';
 dotenv.config({ path: path.join((process.cwd(), '.env')) });
 
 export default {
-  NODE_ENV: process.env.NODE_ENV,
+  node_env: process.env.NODE_ENV,
   port: process.env.PORT,
   database_url: process.env.DATABASE_URL,
   bcrypt_salt_rounds: process.env.BCRYPT_SALT_ROUNDS,
@@ -19,4 +19,6 @@ export default {
     sp_prefix: process.env.SP_PREFIX,
     sp_return_url: process.env.SP_RETURN_URL,
   },
+  smtp_user: process.env.SMTP_USER,
+  smtp_pass: process.env.SMTP_PASS,
 };

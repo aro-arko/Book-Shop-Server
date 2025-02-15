@@ -1,7 +1,6 @@
 import { Router } from 'express';
 import { UserRoutes } from '../modules/User/user.route';
 import { AuthRoutes } from '../modules/Auth/auth.route';
-import { AdminRoutes } from '../modules/Admin/admin.route';
 import { ProductRoutes } from '../modules/Product/product.route';
 import orderRouter from '../modules/Order/order.route';
 import cartRouter from '../modules/Cart/cart.route';
@@ -16,10 +15,6 @@ const moduleRoutes = [
   {
     path: '/user',
     route: UserRoutes,
-  },
-  {
-    path: '/admin',
-    route: AdminRoutes,
   },
   {
     path: '/product',

@@ -9,7 +9,16 @@ const app = express();
 
 // Middleware setup
 app.use(express.json());
-app.use(cors({ origin: true }));
+// Enable CORS
+app.use(
+  cors({
+    origin: ['http://localhost:5173', 'https://your-deployed-frontend.com'], // Allow frontend URLs
+    methods: 'GET, POST, PUT, PATCH, DELETE',
+    allowedHeaders: 'Content-Type, Authorization',
+    credentials: true,
+  }),
+);
+
 app.use(bodyParser.json());
 
 // Route handlers

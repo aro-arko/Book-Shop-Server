@@ -19,10 +19,10 @@ const sendEmail = (to, resetLink) => __awaiter(void 0, void 0, void 0, function*
     const transporter = nodemailer_1.default.createTransport({
         host: 'smtp.gmail.com',
         port: 587,
-        secure: config_1.default.NODE_ENV === 'production',
+        secure: config_1.default.node_env === 'production',
         auth: {
-            user: 'aroarko.sd@gmail.com',
-            pass: 'bwml qrso lidd gxwu',
+            user: config_1.default.smtp_user,
+            pass: config_1.default.smtp_pass,
         },
     });
     const html = `
@@ -92,7 +92,7 @@ const sendEmail = (to, resetLink) => __awaiter(void 0, void 0, void 0, function*
           <p>This link will expire in 10 minutes for security reasons.</p>
         </div>
         <div class="footer">
-          &copy; 2025 Your Company. All rights reserved.
+          &copy; 2025 Aro Arko. All rights reserved.
         </div>
       </div>
     </body>
