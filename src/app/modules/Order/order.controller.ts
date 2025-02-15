@@ -5,8 +5,8 @@ import httpStatus from 'http-status';
 
 const createOrder = catchAsync(async (req, res) => {
   const user = req.user;
-  console.log(user);
-  console.log(req.body);
+  // console.log(user);
+  // console.log(req.body);
   const order = await orderService.createOrder(user, req.body, req.ip!);
 
   sendResponse(res, {
