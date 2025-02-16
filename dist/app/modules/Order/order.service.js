@@ -72,7 +72,7 @@ const createOrder = (user, payload, client_ip) => __awaiter(void 0, void 0, void
     return payment.checkout_url;
 });
 const getOrders = () => __awaiter(void 0, void 0, void 0, function* () {
-    const data = yield order_model_1.default.find();
+    const data = yield order_model_1.default.find().sort({ createdAt: -1 });
     return data;
 });
 const verifyPayment = (order_id) => __awaiter(void 0, void 0, void 0, function* () {
