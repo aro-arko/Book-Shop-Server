@@ -80,7 +80,7 @@ const createOrder = async (
 };
 
 const getOrders = async () => {
-  const data = await Order.find();
+  const data = await Order.find().sort({ createdAt: -1 });
   return data;
 };
 
