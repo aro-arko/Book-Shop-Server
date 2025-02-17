@@ -2,6 +2,11 @@
 
 A feature-rich backend for an online bookstore with user authentication, product management, shopping cart, and payment integration. Built with Node.js, Express, TypeScript, and MongoDB.
 
+## Frontend Repository
+
+The frontend part of this project can be found at: [https://github.com/aro-arko/Book-Shop-Frontend.git](https://github.com/aro-arko/Book-Shop-Frontend.git)
+
+
 ## Live Backend URL
 
 The live backend URL for the BookShop REST API is: [https://book-shop-server-api.vercel.app](https://book-shop-server-api.vercel.app)
@@ -20,7 +25,7 @@ To run this project on your local machine, follow these steps:
 
 1. **Clone the repository**:
    ```sh
-   git clone https://github.com/your-username/book-store-api.git
+   git clone https://github.com/aro-arko/Book-Shop-Server.git
    cd book-store-api
    ```
 
