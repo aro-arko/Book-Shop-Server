@@ -71,8 +71,12 @@ const createOrder = (user, payload, client_ip) => __awaiter(void 0, void 0, void
     }
     return payment.checkout_url;
 });
-const getOrders = () => __awaiter(void 0, void 0, void 0, function* () {
-    const data = yield order_model_1.default.find().sort({ createdAt: -1 });
+const getOrders = (userEmail) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = yield user_model_1.default.findOne({ email: userEmail });
+    if (!user) {
+        throw new AppError_1.default(http_status_1.default.NOT_FOUND, 'User not found');
+    }
+    const data = yield order_model_1.default.find({ user: user._id }).sort({ createdAt: -1 });
     return data;
 });
 const verifyPayment = (order_id) => __awaiter(void 0, void 0, void 0, function* () {

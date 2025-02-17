@@ -12,9 +12,11 @@ const globalErrorHandler_1 = __importDefault(require("./app/middlewares/globalEr
 const app = (0, express_1.default)();
 // Middleware setup
 app.use(express_1.default.json());
-// Enable CORS
 app.use((0, cors_1.default)({
-    origin: ['http://localhost:5173', 'https://your-deployed-frontend.com'], // Allow frontend URLs
+    origin: [
+        'https://bookshop-frontend-six.vercel.app',
+        'http://localhost:5173',
+    ],
     methods: 'GET, POST, PUT, PATCH, DELETE',
     allowedHeaders: 'Content-Type, Authorization',
     credentials: true,

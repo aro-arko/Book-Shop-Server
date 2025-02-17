@@ -9,10 +9,12 @@ const app = express();
 
 // Middleware setup
 app.use(express.json());
-// Enable CORS
 app.use(
   cors({
-    origin: ['http://localhost:5173', 'https://your-deployed-frontend.com'], // Allow frontend URLs
+    origin: [
+      'https://bookshop-frontend-six.vercel.app',
+      'http://localhost:5173',
+    ],
     methods: 'GET, POST, PUT, PATCH, DELETE',
     allowedHeaders: 'Content-Type, Authorization',
     credentials: true,

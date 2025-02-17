@@ -1,272 +1,288 @@
-# Book Shop API
+# Book Store REST API
 
-## Description
-
-The present application is meant to be a complete REST API utilizing Express framework and TypeScript along with MongoDB for managing Book Store. It handles products/articles or books along with orders to be included in a CRUD inventory, as well as revenues from the sales. Mongoose is being used for defining the schema relevant to the data integrity validated by built-in rules.
+This application is a complete REST API for managing a Book Store, built with Express, TypeScript, and MongoDB. It handles books, orders, user information, and cart management using Mongoose for schema definition and data validation. A payment gateway, Surjopay, has been integrated. Users can register, log in, change passwords, and reset passwords using a token received via the forgot password feature.
 
 ## Features
 
-- Create, Update, Retrieve and Delete books (products)
-- Look up books by their respective ID
-- Order books, decrement inventory as orders come in
-- All income generated from orders using MongoDB aggregation
-- Data integrity with Mongoose built-in validators for validating schema
+- **User Authentication & Authorization** using JWT tokens
+- **User Management**: Register, log in, change password, forgot password, and reset password
+- **Book Management**: Create, update, retrieve, and delete books (products)
+- **Search & Retrieve** books by their respective ID
+- **Cart Management**: Add books to the cart and manage items
+- **Order Processing**: Place orders and update inventory accordingly
+- **Payment Integration** with Surjopay
 
-## Technologies Used
+## API Endpoints
 
-- **Node.js** with **Express.js**
-- **TypeScript**
-- **MongoDB** with **Mongoose**
-- **Mongoose built-in validators** (e.g., required, min, enum, maxlength)
+### Authentication
 
-## Project Setup
+#### 1. Register
 
-### Prerequisites
+**Endpoint:** `/api/auth/register`  
+**Method:** `POST`
 
-Before you begin, ensure you have the following installed:
+**Request Body:**
 
-- Node.js (v14 or higher)
-- MongoDB (locally or use MongoDB Atlas)
-
-### Installation
-
-1. Clone this repository:
-   ```bash
-   git clone https://github.com/aro-arko/Book-Shop-Server.git
-   ```
-2. Install Dependencies:
-   ```bash
-   cd book-shop-api
-   npm install
-   ```
-3. Set up environment variables:
-   Create a .env file in the root of the project and configure it as needed (e.g., MongoDB connection URL).
-4. Start the application:
-
-   ```bash
-   npm run dev
-   ```
-
-   This will start the server at `http://localhost:5000/`
-
-   If you want to use our online live server, here is the link: `https://book-shop-server-api.vercel.app/`
-
-## Endpoints
-
-### 1. Create a Book
-
-#### EndPoint: `/api/products`
-
-#### Method: `POST`
-
-#### Request Body:
-
-    {
-        "title": "The Great Gatsby",
-        "author": "F. Scott Fitzgerald",
-        "price": 10,
-        "category": "Fiction",
-        "description": "A story about the American dream.",
-        "quantity": 100,
-         "inStock": true
-    }
-
-#### Response:
-
-    {
-        "message": "Book created successfully",
-        "success": true,
-        "data": {
-            "_id": "648a45e5f0123c45678d9012",
-            "title": "The Great Gatsby",
-            "author": "F. Scott Fitzgerald",
-            "price": 10,
-            "category": "Fiction",
-            "description": "A story about the American dream.",
-            "quantity": 100,
-            "inStock": true,
-            "createdAt": "2024-11-19T10:23:45.123Z",
-            "updatedAt": "2024-11-19T10:23:45.123Z"
-        }
-    }
-
-### 2. Get All books
-
-#### EndPoint: `/api/products`
-
-#### Method: `GET`
-
-#### Query Parameter: `searchTerm` (e.g., title, author, category)
-
-#### Response:
-
-    {
-        "message": "Books retrieved successfully",
-        "status": true,
-        "data": [
-            {
-            "_id": "648a45e5f0123c45678d9012",
-            "title": "The Great Gatsby",
-            "author": "F. Scott Fitzgerald",
-            "price": 10,
-            "category": "Fiction",
-            "description": "A story about the American dream.",
-            "quantity": 100,
-            "inStock": true,
-            "createdAt": "2024-11-19T10:23:45.123Z",
-            "updatedAt": "2024-11-19T10:23:45.123Z"
-            }
-        ]
-    }
-
-### 3. Get a Specific Book
-
-#### EndPoint: `/api/products/:productId`
-
-#### Method: `GET`
-
-#### Response:
-
-    {
-        "message": "Book retrieved successfully",
-        "status": true,
-        "data": {
-            "_id": "648a45e5f0123c45678d9012",
-            "title": "The Great Gatsby",
-            "author": "F. Scott Fitzgerald",
-            "price": 10,
-            "category": "Fiction",
-            "description": "A story about the American dream.",
-            "quantity": 100,
-            "inStock": true,
-            "createdAt": "2024-11-19T10:23:45.123Z",
-            "updatedAt": "2024-11-19T10:23:45.123Z"
-        }
-    }
-
-### 4. Update a Book
-
-#### EndPoint: `/api/products/:productId`
-
-#### Method: `PUT`
-
-#### Request Body:
-
-    {
-        "price": 15,
-        "quantity": 25
-    }
-
-#### Response:
-
-    {
-        "message": "Book updated successfully",
-        "status": true,
-        "data": {
-            "_id": "648a45e5f0123c45678d9012",
-            "title": "The Great Gatsby",
-            "author": "F. Scott Fitzgerald",
-            "price": 15,
-            "category": "Fiction",
-            "description": "A story about the American dream.",
-            "quantity": 25,
-            "inStock": true,
-            "createdAt": "2024-11-19T10:23:45.123Z",
-            "updatedAt": "2024-11-19T11:00:00.000Z"
-        }
-    }
-
-### 5. Delete a Book
-
-#### EndPoint: `/api/products/:productId`
-
-#### Method: `DELETE`
-
-#### Response:
-
-    {
-        "message": "Book deleted successfully",
-        "status": true,
-        "data": {}
-    }
-
-### 5. Order a Book
-
-#### EndPoint: `/api/orders`
-
-#### Method: `POST`
-
-#### Request Body:
-
-    {
-        "email": "customer@example.com",
-        "product": "648a45e5f0123c45678d9012",
-        "quantity": 2,
-        "totalPrice": 30
-    }
-
-#### Response:
-
-    {
-        "message": "Order created successfully",
-        "status": true,
-        "data": {
-            "_id": "648b45f5e1234b56789a6789",
-            "email": "customer@example.com",
-            "product": "648a45e5f0123c45678d9012",
-            "quantity": 2,
-            "totalPrice": 30,
-            "createdAt": "2024-11-19T12:00:00.000Z",
-            "updatedAt": "2024-11-19T12:00:00.000Z"
-        }
-    }
-
-### 7. Calculate Revenue from Orders
-
-#### EndPoint: `/api/orders/revenue`
-
-#### Method: `GET`
-
-#### Response:
-
-    {
-        "message": "Revenue calculated successfully",
-        "status": true,
-        "data": {
-            "totalRevenue": 450
-        }
-    }
-
-### Error Response
-
-The error responses follow a consistent format
-
-```
+```json
 {
-  "message": "Validation failed",
-  "success": false,
-  "error": {
-    "name": "ValidationError",
-    "errors": {
-      "price": {
-        "message": "Price cannot be negative",
-        "name": "ValidatorError",
-        "properties": {
-          "message": "Price cannot be negative",
-          "type": "min",
-          "min": 0
-        },
-        "kind": "min",
-        "path": "price",
-        "value": -5
-      }
-    }
-  },
-  "stack": "Error: Something went wrong\n    at app.js:23:13\n    at..."
+  "name": "John Doe",
+  "phone": "0123456789",
+  "email": "johndoe@example.com",
+  "password": "test1234"
 }
 ```
 
-## Acknowledgments
+**Response:**
 
-- Special thanks to MongoDB and Mongoose for their robust database solutions.
-- Thanks to Express.js for simplifying the development of the REST API.
+```json
+{
+  "success": true,
+  "message": "User created successfully",
+  "statusCode": 201,
+  "data": {
+    "_id": "67b29d3b8c8ba639fdeee4a3",
+    "name": "John Doe",
+    "email": "johndoe@example.com"
+  }
+}
+```
+
+#### 2. Login
+
+**Endpoint:** `/api/auth/login`  
+**Method:** `POST`
+
+**Request Body:**
+
+```json
+{
+  "email": "johndoe@example.com",
+  "password": "test1234"
+}
+```
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "message": "User is logged in successfully!",
+  "statusCode": 200,
+  "data": {
+    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG5kb2VAZXhhbXBsZS5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3Mzk3NTk2MzUsImV4cCI6MTc0MDE5MTYzNX0.O9sfDOq_51Wl6-mNJ6FTXvf_splGEsBExU09wHv6ai0"
+  }
+}
+```
+
+#### 3. Change Password
+
+**Endpoint:** `/api/auth/change-password`  
+**Method:** `POST`
+
+**Request Body:**
+
+```json
+{
+  "oldPassword": "secure1234",
+  "newPassword": "newPass2343"
+}
+```
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "message": "Password is updated successfully!",
+  "statusCode": 200,
+  "data": null
+}
+```
+
+**Description:** This endpoint allows users to change their password by providing their current password and the new password. The old password is validated, and if it matches the stored password, the new password is hashed and updated.
+
+Error Response Example (Old Password Incorrect):
+
+```json
+{
+  "success": false,
+  "message": "Password do not matched",
+  "statusCode": 403,
+  "error": {
+    "details": {
+      "statusCode": 403
+    }
+  },
+  "stack": null
+}
+```
+
+#### 4. Forget Password
+
+**Endpoint:** `/api/auth/forget-password`  
+**Method:** `POST`
+
+**Request Body:**
+
+```json
+{
+  "email": "dummyemail@example.com"
+}
+```
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "message": "Reset link is generated successfully!",
+  "statusCode": 200
+}
+```
+
+**Description:** This endpoint allows users to request a password reset by providing their registered email address. A reset link is sent to the provided email address.
+
+Error Response Example (Old Password Incorrect):
+
+```json
+{
+  "success": false,
+  "message": "This user is not found !",
+  "statusCode": 404,
+  "error": {
+    "details": {
+      "statusCode": 404
+    }
+  },
+  "stack": null
+}
+```
+
+#### 4. Reset Password
+
+**Endpoint:** `/api/auth/reset-password`  
+**Method:** `POST`
+
+**Request Body:**
+
+```json
+{
+  "email": "dummyemail@example.com",
+  "newPassword": "admin12345"
+}
+```
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "message": "Password reset successfully!",
+  "statusCode": 200
+}
+```
+
+**Description:** This endpoint allows users to reset their password using the reset token they received after initiating the forget password process. It requires the email address and a new password.
+
+Error Response Example (User Not Found):
+
+```json
+{
+  "success": false,
+  "message": "This user is not found!",
+  "statusCode": 404,
+  "error": {
+    "details": {
+      "statusCode": 404
+    }
+  },
+  "stack": null
+}
+```
+
+## Product Management
+
+### 1. **Create Product**
+
+**Endpoint:** `/api/product`  
+**Method:** `POST`  
+**Authentication:** Admin Only (Requires JWT Token)
+
+**Request Body:**
+
+```json
+{
+  "title": "The Great Gatsby",
+  "author": "F. Scott Fitzgerald",
+  "price": 15.99,
+  "category": "Fiction",
+  "description": "A novel about the American dream, wealth, and society in the Jazz Age.",
+  "image": "https://i.ibb.co/rRx03QFc/book-1.jpg",
+  "quantity": 50,
+  "inStock": true
+}
+```
+
+**Description:** This endpoint allows an admin to create a new product (book) in the store. The admin needs to provide the book details, including title, author, price, category, description, image URL, quantity, and stock availability.
+
+Error Response Example (Unauthorized User):
+
+```json
+{
+  "success": false,
+  "message": "Invalid or expired token!",
+  "statusCode": 401,
+  "error": {
+    "details": {
+      "statusCode": 401
+    }
+  },
+  "stack": null
+}
+```
+
+### 2. **Get Product**
+
+#### Endpoint:
+
+`GET /api/product?title={title}&category={category}&page={page}&limit={limit}`
+
+This API allows users to search for products using **title** and **category**. Additionally, it provides options for **pagination**.
+
+#### Query Parameters:
+
+- **title** (optional): A search term to filter products by **title**.
+- **category** (optional): A search term to filter products by **category**.
+- **page** (optional, default: `1`): The page number for pagination.
+- **limit** (optional, default: `10`): The number of products per page.
+
+#### Request Examples:
+
+1. **Search for products by Title, with Pagination:**
+
+`/api/product?title=Reclaim Your Heart&page=1&limit=1
+`
+
+```json
+{
+  "message": "Books retrieved successfully",
+  "status": true,
+  "data": [
+    {
+      "_id": "67b1b61f06b12cef318ab3f0",
+      "title": "Reclaim Your Heart",
+      "author": "Yasmin Mogahed",
+      "price": 18,
+      "category": "Religious",
+      "description": "This book offers deep reflections on spirituality, personal struggles, and maintaining faith in difficult times. Yasmin Mogahed’s writing is emotional, insightful, and empowering for those seeking inner peace through Islam.",
+      "image": "https://i.ibb.co/0R9thZrQ/image.png",
+      "quantity": 52,
+      "inStock": true,
+      "createdAt": "2025-02-16T09:55:43.189Z",
+      "updatedAt": "2025-02-16T09:55:43.189Z"
+    }
+  ]
+}
+```
+
+---

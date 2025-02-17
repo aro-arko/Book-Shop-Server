@@ -79,8 +79,12 @@ const createOrder = async (
   return payment.checkout_url;
 };
 
-const getOrders = async () => {
-  const data = await Order.find().sort({ createdAt: -1 });
+const getOrders = async (userEmail: string) => {
+  const user = await User.findOne({ email: userEmail });
+  if (!user) {
+    throw new AppError(httpStatus.NOT_FOUND, 'User not found');
+  }
+  const data = await Order.find({ user: user._id }).sort({ createdAt: -1 });
   return data;
 };
 
