@@ -1,8 +1,8 @@
-# Book Store REST API 📚
+# BookShop REST API 📚
 
 ## Authentication API
 
-This section of the Book Store API focuses on **User Authentication** and **Authorization**. It allows users to register, log in, and manage their account credentials securely using JWT (JSON Web Tokens). This section also supports password recovery via token-based reset.
+This section of the BookShop API focuses on **User Authentication** and **Authorization**. It allows users to register, log in, and manage their account credentials securely using JWT (JSON Web Tokens). This section also supports password recovery via token-based reset.
 
 ### **Features** 🔐
 
@@ -16,7 +16,7 @@ This section of the Book Store API focuses on **User Authentication** and **Auth
 
 ## Live Backend URL
 
-The live backend URL for the Book Store REST API is: [https://book-shop-server-api.vercel.app](https://book-shop-server-api.vercel.app)
+The live backend URL for the BookShop REST API is: [https://book-shop-server-api.vercel.app](https://book-shop-server-api.vercel.app)
 
 ## Technologies Used
 
@@ -603,7 +603,7 @@ _Response (Success):_
 }
 ```
 
-### 5. Get All orders
+### 5. Get All User Order
 
 **Endpoint: `/api/order/all`**
 
@@ -640,7 +640,7 @@ _Response (Success):_
 }
 ```
 
-### 6. Get All Orders API
+### 6. Get All Orders
 
 This API allows an admin to retrieve all the orders placed by users.
 
@@ -660,30 +660,29 @@ This API does not require any specific user data, but the request must be made b
 
 #### Example Request
 
-````json
 ```json
 {
-    "success": true,
-    "message": "Orders retrieved successfully",
-    "statusCode": 200,
-    "data": [
-        {
-            "_id": "67b2c781da65e7ee5f50970c",
-            "user": "67a609749a4dc360bf9b20fc",
-            "totalPrice": 21,
-            "status": "Paid",
-            "createdAt": "2025-02-17T05:22:09.144Z"
-        },
-        {
-            "_id": "67b2c2d46bd68defe4952fd1",
-            "user": "67a609749a4dc360bf9b2k3c",
-            "totalPrice": 21,
-            "status": "Paid",
-            "createdAt": "2025-02-17T05:02:12.724Z"
-        }
-    ]
+  "success": true,
+  "message": "Orders retrieved successfully",
+  "statusCode": 200,
+  "data": [
+    {
+      "_id": "67b2c781da65e7ee5f50970c",
+      "user": "67a609749a4dc360bf9b20fc",
+      "totalPrice": 21,
+      "status": "Paid",
+      "createdAt": "2025-02-17T05:22:09.144Z"
+    },
+    {
+      "_id": "67b2c2d46bd68defe4952fd1",
+      "user": "67a609749a4dc360bf9b2k3c",
+      "totalPrice": 21,
+      "status": "Paid",
+      "createdAt": "2025-02-17T05:02:12.724Z"
+    }
+  ]
 }
-````
+```
 
 ## User Management
 
@@ -944,3 +943,13 @@ This API allows a **user** to update the quantity of a product by product id in 
 ```
 
 ---
+
+---
+
+## Thanks
+
+Thank you for checking out the BookShop REST API! We hope you find it useful and easy to integrate into your projects. If you have any questions or feedback, feel free to reach out.
+
+Happy coding! 😊
+
+- Aro Arko
