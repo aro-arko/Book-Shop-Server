@@ -1,18 +1,6 @@
 # BookShop REST API 📚
 
-## Authentication API
-
-This section of the BookShop API focuses on **User Authentication** and **Authorization**. It allows users to register, log in, and manage their account credentials securely using JWT (JSON Web Tokens). This section also supports password recovery via token-based reset.
-
-### **Features** 🔐
-
-- **User Registration**: Create a new user account
-- **User Login**: Log in to an existing account
-- **Change Password**: Update your password
-- **Forgot Password**: Recover access by resetting the password
-- **Password Reset**: Reset password via token for secure authentication
-
----
+A feature-rich backend for an online bookstore with user authentication, product management, shopping cart, and payment integration. Built with Node.js, Express, TypeScript, and MongoDB.
 
 ## Live Backend URL
 
@@ -20,10 +8,11 @@ The live backend URL for the BookShop REST API is: [https://book-shop-server-api
 
 ## Technologies Used
 
-- **TypeScript**
-- **Node.js**
-- **Express**
-- **MongoDB**
+![Node.js](https://img.shields.io/badge/Node.js-18.x-green)
+![Express](https://img.shields.io/badge/Express-4.x-lightgrey)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue)
+![MongoDB](https://img.shields.io/badge/MongoDB-7.x-green)
+![Mongoose](https://img.shields.io/badge/Mongoose-8.x-red)
 
 ## Installation
 
@@ -56,6 +45,20 @@ SMTP_USER=your_smtp_user
 SMTP_PASS=your_smtp_password
 RESEND_API_KEY=your_resend_api_key
 ```
+
+---
+
+## Authentication API
+
+This section of the BookShop API focuses on **User Authentication** and **Authorization**. It allows users to register, log in, and manage their account credentials securely using JWT (JSON Web Tokens). This section also supports password recovery via token-based reset.
+
+### **Features** 🔐
+
+- **User Registration**: Create a new user account
+- **User Login**: Log in to an existing account
+- **Change Password**: Update your password
+- **Forgot Password**: Recover access by resetting the password
+- **Password Reset**: Reset password via token for secure authentication
 
 ---
 
