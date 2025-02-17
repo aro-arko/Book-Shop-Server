@@ -956,15 +956,15 @@ The BookShop REST API is built using the following open-source technologies:
 - **TypeScript:** A typed superset of JavaScript that compiles to plain JavaScript. [https://www.typescriptlang.org/](https://www.typescriptlang.org/)
 - **Surjopay:** The payment gateway used for processing transactions. [https://shurjopay.com.bd/](https://shurjopay.com.bd/)
 
-I gratefully acknowledge the contributions of the developers and communities behind these projects.
+I sincerely appreciate and acknowledge the invaluable contributions of the developers and communities behind these remarkable projects.
 
 ## Support
 
-We appreciate your interest in the BookShop REST API. For support or inquiries, please contact us through [email address or link to support forum].
+I truly appreciate your interest in the BookShop REST API. For any support or inquiries, please feel free to reach out to me at [https://www.linkedin.com/in/aroarko/](https://www.linkedin.com/in/aroarko/).
 
 ## Feedback and Contributions
 
-We welcome your feedback and contributions to the BookShop REST API! Please feel free to submit issues or pull requests on our [GitHub repository link, if applicable].
+I welcome your feedback and contributions to the BookShop REST API! Please feel free to reach out to me with any issues or suggestions
 
 Best regards,
 
