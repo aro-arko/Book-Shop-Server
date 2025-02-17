@@ -949,14 +949,14 @@ This API allows a **user** to update the quantity of a product by product id in 
 
 The BookShop REST API is built using the following open-source technologies:
 
-- **Node.js:** A JavaScript runtime environment that executes JavaScript code server-side. (You can optionally link to: [https://nodejs.org/](https://nodejs.org/))
-- **MongoDB:** A NoSQL document database. (You can optionally link to: [https://www.mongodb.com/](https://www.mongodb.com/))
-- **Mongoose:** An Object Data Modeling (ODM) library for MongoDB and Node.js. (You can optionally link to: [https://mongoosejs.com/](https://mongoosejs.com/))
-- **Express.js:** A web application framework for Node.js. (You can optionally link to: [https://expressjs.com/](https://expressjs.com/))
-- **TypeScript:** A typed superset of JavaScript that compiles to plain JavaScript. (You can optionally link to: [https://www.typescriptlang.org/](https://www.typescriptlang.org/))
-- **Surjopay:** The payment gateway used for processing transactions. (Link to their site if available)
+- **Node.js:** A JavaScript runtime environment that executes JavaScript code server-side. [https://nodejs.org/](https://nodejs.org/)
+- **MongoDB:** A NoSQL document database. [https://www.mongodb.com/](https://www.mongodb.com/)
+- **Mongoose:** An Object Data Modeling (ODM) library for MongoDB and Node.js. [https://mongoosejs.com/](https://mongoosejs.com/)
+- **Express.js:** A web application framework for Node.js. [https://expressjs.com/](https://expressjs.com/)
+- **TypeScript:** A typed superset of JavaScript that compiles to plain JavaScript. [https://www.typescriptlang.org/](https://www.typescriptlang.org/)
+- **Surjopay:** The payment gateway used for processing transactions. [https://shurjopay.com.bd/] (https://shurjopay.com.bd/)
 
-We gratefully acknowledge the contributions of the developers and communities behind these projects.
+I gratefully acknowledge the contributions of the developers and communities behind these projects.
 
 ## Support
 
