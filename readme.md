@@ -951,5 +951,4 @@ This API allows a **user** to update the quantity of a product by product id in 
 Thank you for checking out the BookShop REST API! We hope you find it useful and easy to integrate into your projects. If you have any questions or feedback, feel free to reach out.
 
 Happy coding! 😊
-
-- Aro Arko
+~ Aro Arko
