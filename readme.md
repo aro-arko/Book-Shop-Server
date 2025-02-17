@@ -954,7 +954,7 @@ The BookShop REST API is built using the following open-source technologies:
 - **Mongoose:** An Object Data Modeling (ODM) library for MongoDB and Node.js. [https://mongoosejs.com/](https://mongoosejs.com/)
 - **Express.js:** A web application framework for Node.js. [https://expressjs.com/](https://expressjs.com/)
 - **TypeScript:** A typed superset of JavaScript that compiles to plain JavaScript. [https://www.typescriptlang.org/](https://www.typescriptlang.org/)
-- **Surjopay:** The payment gateway used for processing transactions. [https://shurjopay.com.bd/] (https://shurjopay.com.bd/)
+- **Surjopay:** The payment gateway used for processing transactions. [https://shurjopay.com.bd/](https://shurjopay.com.bd/)
 
 I gratefully acknowledge the contributions of the developers and communities behind these projects.
 
