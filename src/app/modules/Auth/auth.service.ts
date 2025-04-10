@@ -67,6 +67,16 @@ const changePassword = async (
   const user = await User.isUserExistsByEmail(userData.email);
   // console.log(user);
 
+  if (
+    user.email === 'admin@bookshop.com' ||
+    user.email === 'arko@bookshop.com'
+  ) {
+    throw new AppError(
+      httpStatus.FORBIDDEN,
+      'Demo account password cannot be changed',
+    );
+  }
+
   if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, 'This user is not found !');
   }
