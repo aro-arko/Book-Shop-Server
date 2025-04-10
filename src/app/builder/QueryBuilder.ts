@@ -1,4 +1,5 @@
-import { FilterQuery, Query, Types } from 'mongoose';
+import { FilterQuery, Query } from 'mongoose';
+import { ProductCategory } from '../modules/Product/product.interface';
 
 class QueryBuilder<T> {
   public modelQuery: Query<T[], T>;
@@ -36,20 +37,51 @@ class QueryBuilder<T> {
     ];
     excludeFields.forEach((field) => delete queryObj[field]);
 
-    // Handle filter for authorId
+    // Handle filter for author or category
     if (queryObj.filter) {
-      queryObj.author = queryObj.filter; // Assign filter to `author` field
-      delete queryObj.filter; // Remove original filter field
+      const filterValue = queryObj.filter as string;
+
+      const validCategories: ProductCategory[] = [
+        'Fiction',
+        'Science',
+        'SelfDevelopment',
+        'Poetry',
+        'Religious',
+      ];
+
+      if (validCategories.includes(filterValue as ProductCategory)) {
+        queryObj.category = filterValue;
+      } else {
+        queryObj.author = filterValue;
+      }
+
+      delete queryObj.filter;
     }
 
-    // Parse ObjectId fields if present
-    if (queryObj.author) {
-      queryObj.author = new Types.ObjectId(queryObj.author as string);
+    // Handle price range
+    const priceFilter: Record<string, number> = {};
+    if (queryObj.minPrice) {
+      priceFilter.$gte = Number(queryObj.minPrice);
+      delete queryObj.minPrice;
+    }
+    if (queryObj.maxPrice) {
+      priceFilter.$lte = Number(queryObj.maxPrice);
+      delete queryObj.maxPrice;
+    }
+    if (Object.keys(priceFilter).length > 0) {
+      queryObj.price = priceFilter;
+    }
+
+    // Handle inStock true/false filter
+    if (queryObj.inStock !== undefined) {
+      const inStockValue = (queryObj.inStock as string).toLowerCase();
+      queryObj.inStock = inStockValue === 'true';
     }
 
     this.modelQuery = this.modelQuery.find(queryObj as FilterQuery<T>);
     return this;
   }
+
   sort() {
     const sortBy = (this.query.sortBy as string) || 'createdAt';
     const sortOrder = (this.query.sortOrder as string) === 'asc' ? '' : '-';

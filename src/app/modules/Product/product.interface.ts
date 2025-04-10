@@ -1,5 +1,5 @@
 // Defines possible categories for books
-type ProductCategory =
+export type ProductCategory =
   | 'Fiction'
   | 'Science'
   | 'SelfDevelopment'

@@ -50,6 +50,16 @@ const getAllOrders = catchAsync(async (req, res) => {
     data: orders,
   });
 });
+const getAllOrdersStats = catchAsync(async (req, res) => {
+  const orders = await orderService.getAllOrdersStats();
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Orders retrieved successfully',
+    data: orders,
+  });
+});
 
 const getSingleOrder = catchAsync(async (req, res) => {
   const order = await orderService.getSingleOrder(req.params.orderId);
@@ -67,5 +77,6 @@ export const orderController = {
   verifyPayment,
   getOrders,
   getAllOrders,
+  getAllOrdersStats,
   getSingleOrder,
 };

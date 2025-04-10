@@ -13,6 +13,7 @@ orderRouter
   .get(auth(USER_ROLE.user), orderController.getOrders);
 
 orderRouter.get('/all', auth(USER_ROLE.admin), orderController.getAllOrders);
+orderRouter.get('/all/stats', orderController.getAllOrdersStats);
 orderRouter.get(
   '/:orderId',
   auth(USER_ROLE.admin),

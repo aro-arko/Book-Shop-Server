@@ -35,9 +35,15 @@ const getUserByIdFromDB = async (userId: string) => {
   return result;
 };
 
+const getAllUserStatsFromDB = async () => {
+  const result = (await User.find({ role: 'user' })).length;
+  return result;
+};
+
 export const UserServices = {
   getAllUserFromDB,
   updateUserInDB,
   getMeFromDB,
   getUserByIdFromDB,
+  getAllUserStatsFromDB,
 };

@@ -11,6 +11,7 @@ router.patch(
   auth(USER_ROLE.admin, USER_ROLE.user),
   UserControllers.updateUser,
 );
+router.get('/all/stats', UserControllers.getAllUserStats);
 router.get('/me', auth(USER_ROLE.admin, USER_ROLE.user), UserControllers.getMe);
 router.get('/:userId', auth(USER_ROLE.admin), UserControllers.getUserById);
 

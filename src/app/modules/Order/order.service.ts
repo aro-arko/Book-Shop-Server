@@ -137,6 +137,10 @@ const getAllOrders = async () => {
   const orders = await Order.find().sort({ createdAt: -1 }); // Sort by createdAt in descending order
   return orders;
 };
+const getAllOrdersStats = async () => {
+  const orders = (await Order.find()).length; // Sort by createdAt in descending order
+  return orders;
+};
 
 const getSingleOrder = async (orderId: string) => {
   const order = await Order.findById(orderId);
@@ -149,5 +153,6 @@ export const orderService = {
   getOrders,
   verifyPayment,
   getAllOrders,
+  getAllOrdersStats,
   getSingleOrder,
 };
