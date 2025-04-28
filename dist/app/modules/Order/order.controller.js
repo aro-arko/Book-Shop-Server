@@ -57,6 +57,15 @@ const getAllOrders = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, v
         data: orders,
     });
 }));
+const getAllOrdersStats = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const orders = yield order_service_1.orderService.getAllOrdersStats();
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: 'Orders retrieved successfully',
+        data: orders,
+    });
+}));
 const getSingleOrder = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const order = yield order_service_1.orderService.getSingleOrder(req.params.orderId);
     (0, sendResponse_1.default)(res, {
@@ -71,5 +80,6 @@ exports.orderController = {
     verifyPayment,
     getOrders,
     getAllOrders,
+    getAllOrdersStats,
     getSingleOrder,
 };

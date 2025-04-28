@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const mongoose_1 = require("mongoose");
 class QueryBuilder {
     constructor(modelQuery, query) {
         this.modelQuery = modelQuery;
@@ -28,14 +27,41 @@ class QueryBuilder {
             'fields',
         ];
         excludeFields.forEach((field) => delete queryObj[field]);
-        // Handle filter for authorId
+        // Handle filter for author or category
         if (queryObj.filter) {
-            queryObj.author = queryObj.filter; // Assign filter to `author` field
-            delete queryObj.filter; // Remove original filter field
+            const filterValue = queryObj.filter;
+            const validCategories = [
+                'Fiction',
+                'Science',
+                'SelfDevelopment',
+                'Poetry',
+                'Religious',
+            ];
+            if (validCategories.includes(filterValue)) {
+                queryObj.category = filterValue;
+            }
+            else {
+                queryObj.author = filterValue;
+            }
+            delete queryObj.filter;
         }
-        // Parse ObjectId fields if present
-        if (queryObj.author) {
-            queryObj.author = new mongoose_1.Types.ObjectId(queryObj.author);
+        // Handle price range
+        const priceFilter = {};
+        if (queryObj.minPrice) {
+            priceFilter.$gte = Number(queryObj.minPrice);
+            delete queryObj.minPrice;
+        }
+        if (queryObj.maxPrice) {
+            priceFilter.$lte = Number(queryObj.maxPrice);
+            delete queryObj.maxPrice;
+        }
+        if (Object.keys(priceFilter).length > 0) {
+            queryObj.price = priceFilter;
+        }
+        // Handle inStock true/false filter
+        if (queryObj.inStock !== undefined) {
+            const inStockValue = queryObj.inStock.toLowerCase();
+            queryObj.inStock = inStockValue === 'true';
         }
         this.modelQuery = this.modelQuery.find(queryObj);
         return this;

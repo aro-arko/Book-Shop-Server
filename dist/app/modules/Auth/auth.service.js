@@ -58,6 +58,10 @@ const changePassword = (userData, payload) => __awaiter(void 0, void 0, void 0, 
     // checking if the user is exist
     const user = yield user_model_1.default.isUserExistsByEmail(userData.email);
     // console.log(user);
+    if (user.email === 'admin@bookshop.com' ||
+        user.email === 'arko@bookshop.com') {
+        throw new AppError_1.default(http_status_1.default.FORBIDDEN, 'Demo account password cannot be changed');
+    }
     if (!user) {
         throw new AppError_1.default(http_status_1.default.NOT_FOUND, 'This user is not found !');
     }

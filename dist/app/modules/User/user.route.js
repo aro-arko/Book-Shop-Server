@@ -11,6 +11,7 @@ const user_constant_1 = require("./user.constant");
 const router = express_1.default.Router();
 router.get('/', (0, auth_1.default)(user_constant_1.USER_ROLE.admin), user_controller_1.UserControllers.getAllUser);
 router.patch('/:userEmail', (0, auth_1.default)(user_constant_1.USER_ROLE.admin, user_constant_1.USER_ROLE.user), user_controller_1.UserControllers.updateUser);
+router.get('/all/stats', user_controller_1.UserControllers.getAllUserStats);
 router.get('/me', (0, auth_1.default)(user_constant_1.USER_ROLE.admin, user_constant_1.USER_ROLE.user), user_controller_1.UserControllers.getMe);
 router.get('/:userId', (0, auth_1.default)(user_constant_1.USER_ROLE.admin), user_controller_1.UserControllers.getUserById);
 exports.UserRoutes = router;

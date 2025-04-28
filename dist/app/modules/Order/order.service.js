@@ -119,6 +119,10 @@ const getAllOrders = () => __awaiter(void 0, void 0, void 0, function* () {
     const orders = yield order_model_1.default.find().sort({ createdAt: -1 }); // Sort by createdAt in descending order
     return orders;
 });
+const getAllOrdersStats = () => __awaiter(void 0, void 0, void 0, function* () {
+    const orders = (yield order_model_1.default.find()).length; // Sort by createdAt in descending order
+    return orders;
+});
 const getSingleOrder = (orderId) => __awaiter(void 0, void 0, void 0, function* () {
     const order = yield order_model_1.default.findById(orderId);
     if (!order)
@@ -130,5 +134,6 @@ exports.orderService = {
     getOrders,
     verifyPayment,
     getAllOrders,
+    getAllOrdersStats,
     getSingleOrder,
 };

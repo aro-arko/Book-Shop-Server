@@ -37,9 +37,14 @@ const getUserByIdFromDB = (userId) => __awaiter(void 0, void 0, void 0, function
     const result = yield user_model_1.default.findById(userId);
     return result;
 });
+const getAllUserStatsFromDB = () => __awaiter(void 0, void 0, void 0, function* () {
+    const result = (yield user_model_1.default.find({ role: 'user' })).length;
+    return result;
+});
 exports.UserServices = {
     getAllUserFromDB,
     updateUserInDB,
     getMeFromDB,
     getUserByIdFromDB,
+    getAllUserStatsFromDB,
 };

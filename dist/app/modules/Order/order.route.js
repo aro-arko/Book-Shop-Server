@@ -14,5 +14,6 @@ orderRouter
     .post((0, auth_1.default)(user_constant_1.USER_ROLE.user), order_controller_1.orderController.createOrder)
     .get((0, auth_1.default)(user_constant_1.USER_ROLE.user), order_controller_1.orderController.getOrders);
 orderRouter.get('/all', (0, auth_1.default)(user_constant_1.USER_ROLE.admin), order_controller_1.orderController.getAllOrders);
+orderRouter.get('/all/stats', order_controller_1.orderController.getAllOrdersStats);
 orderRouter.get('/:orderId', (0, auth_1.default)(user_constant_1.USER_ROLE.admin), order_controller_1.orderController.getSingleOrder);
 exports.default = orderRouter;
